@@ -30,9 +30,9 @@ export default function Navbar() {
 
           {/* Right Actions */}
           <div className="hidden sm:flex items-center space-x-6">
-            <button className="bg-brand-500 text-white px-4 py-2 rounded-lg hover:bg-brand-600 font-medium transition-colors shadow-sm">
+            <Link to="/publicar" className="bg-brand-500 text-white px-4 py-2 rounded-lg hover:bg-brand-600 font-medium transition-colors shadow-sm">
               Publicar gratis
-            </button>
+            </Link>
             <div className="flex items-center space-x-4">
               <button className="p-2 text-gray-600 hover:text-brand-500 hover:bg-brand-50 rounded-full transition-colors">
                 <User size={24} />
