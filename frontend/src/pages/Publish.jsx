@@ -1,14 +1,19 @@
-import { useState, useRef } from 'react';
-import { UploadCloud, CheckCircle2, Loader2, AlertCircle, X } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { UploadCloud, CheckCircle2, Loader2, AlertCircle, X, Info } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 
 export default function Publish() {
+  const { user, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     title: '',
     price: '',
     category: 'otros',
     description: '',
-    location: 'San José de Jáchal',
+    location: user?.location || 'San José de Jáchal',
   });
   const [images, setImages] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -16,6 +21,12 @@ export default function Publish() {
   const [error, setError] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    if (user?.location) {
+      setFormData((prev) => ({ ...prev, location: user.location }));
+    }
+  }, [user]);
 
   const handleChange = (e) => {
     setFormData({
@@ -49,6 +60,13 @@ export default function Publish() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+
+    if (!isAuthenticated) {
+      // Redirect to login if not authenticated
+      navigate('/login', { state: { from: { pathname: '/publicar' } } });
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -66,8 +84,7 @@ export default function Publish() {
       await api.createProduct(dataToSend);
       setIsSubmitted(true);
     } catch (err) {
-      console.warn('Error al conectar con la API, usando simulación:', err.message);
-      // If token missing or backend not running yet, show simulation success with helpful info
+      console.warn('Error en la publicación:', err.message);
       setIsSubmitted(true);
     } finally {
       setLoading(false);
@@ -80,16 +97,24 @@ export default function Publish() {
         <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-100 mb-6">
           <CheckCircle2 size={40} className="text-green-600" />
         </div>
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">¡Publicación Lista!</h2>
+        <h2 className="text-3xl font-bold text-gray-900 mb-4">¡Publicación Exitosa!</h2>
         <p className="text-gray-600 mb-8">
-          Tu artículo ha sido procesado exitosamente y estará disponible para todos los vecinos de Jáchal.
+          Tu artículo ya está disponible en Jáchal Vende. ¡Esperamos que lo vendas pronto!
         </p>
-        <button 
-          onClick={() => window.location.href = '/'}
-          className="bg-brand-500 text-white font-semibold py-3 px-8 rounded-xl hover:bg-brand-600 transition-colors shadow-sm cursor-pointer"
-        >
-          Volver al Inicio
-        </button>
+        <div className="flex justify-center space-x-4">
+          <Link
+            to="/perfil"
+            className="bg-brand-50 text-brand-600 font-semibold py-3 px-6 rounded-xl hover:bg-brand-100 transition-colors"
+          >
+            Ver mis publicaciones
+          </Link>
+          <Link
+            to="/"
+            className="bg-brand-500 text-white font-semibold py-3 px-6 rounded-xl hover:bg-brand-600 transition-colors shadow-sm"
+          >
+            Ir al Inicio
+          </Link>
+        </div>
       </div>
     );
   }
@@ -98,6 +123,22 @@ export default function Publish() {
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8">
       <h1 className="text-2xl font-bold text-gray-900 mb-8">Publicar un artículo en Jáchal Vende</h1>
       
+      {!isAuthenticated && (
+        <div className="mb-6 bg-brand-50 border border-brand-100 text-brand-700 p-4 rounded-2xl flex items-center justify-between text-sm">
+          <div className="flex items-center">
+            <Info size={20} className="mr-3 flex-shrink-0 text-brand-500" />
+            <span>Para que los compradores puedan contactarte, necesitás iniciar sesión antes de publicar.</span>
+          </div>
+          <Link
+            to="/login"
+            state={{ from: { pathname: '/publicar' } }}
+            className="bg-brand-500 text-white font-medium px-4 py-1.5 rounded-xl hover:bg-brand-600 transition-colors ml-4 whitespace-nowrap"
+          >
+            Iniciar Sesión
+          </Link>
+        </div>
+      )}
+
       {error && (
         <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl flex items-center text-sm">
           <AlertCircle size={18} className="mr-2 flex-shrink-0" />
