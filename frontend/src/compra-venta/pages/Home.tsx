@@ -93,27 +93,27 @@ export default function MarketplaceHome() {
     <div className="min-h-screen pb-16">
       
       {/* Hero Banner */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-purple-900 via-indigo-900 to-slate-900 text-white pt-12 pb-16 sm:pb-20 px-4 sm:px-6 lg:px-8">
-        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
+      <section className="relative overflow-hidden bg-slate-50 border-b border-slate-200 pt-12 pb-16 sm:pb-20 px-4 sm:px-6 lg:px-8">
+        <div className="absolute inset-0 opacity-40 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
         
         <div className="max-w-5xl mx-auto text-center relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-purple-200 text-xs font-semibold mb-4 border border-white/10">
-            <Tag size={12} className="text-purple-300" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white text-brand-700 text-xs font-semibold mb-4 border border-slate-200 shadow-sm">
+            <Tag size={12} className="text-brand-500" />
             <span>Compra y venta directa en Jáchal</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white mb-4 text-balance">
-            El mercado de la comunidad de <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-pink-300 to-indigo-200">Jáchal</span>
+          <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-slate-900 mb-4 text-balance">
+            El mercado de la comunidad de <span className="text-brand-700">Jáchal</span>
           </h1>
           
-          <p className="text-sm sm:text-base text-purple-100/80 max-w-2xl mx-auto mb-8 text-pretty">
+          <p className="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto mb-8 text-pretty">
             Encontrá autos, motos, herramientas, muebles y tecnología de vecinos de la zona. Trato directo y sin intermediarios.
           </p>
 
           {/* Large Hero Search Box */}
           <form 
             onSubmit={handleSearchSubmit}
-            className="max-w-2xl mx-auto bg-white p-1.5 sm:p-2 rounded-2xl shadow-xl shadow-purple-950/40 border border-white/20 flex items-center gap-2"
+            className="max-w-2xl mx-auto bg-white p-1.5 sm:p-2 rounded-2xl shadow-lg shadow-slate-200/50 border border-slate-200 flex items-center gap-2"
           >
             <div className="flex-1 flex items-center pl-3 text-slate-400">
               <Search size={18} className="text-slate-400 shrink-0 mr-2" />
@@ -127,24 +127,24 @@ export default function MarketplaceHome() {
             </div>
             <button
               type="submit"
-              className="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-4 sm:px-6 py-2.5 rounded-xl text-xs sm:text-sm transition-colors shrink-0 shadow-sm cursor-pointer"
+              className="bg-brand-600 hover:bg-brand-700 text-white font-semibold px-4 sm:px-6 py-2.5 rounded-xl text-xs sm:text-sm transition-colors shrink-0 shadow-sm cursor-pointer"
             >
               Buscar
             </button>
           </form>
 
           {/* Trust Badges */}
-          <div className="mt-8 flex flex-wrap justify-center items-center gap-4 sm:gap-8 text-xs text-purple-200/75">
+          <div className="mt-8 flex flex-wrap justify-center items-center gap-4 sm:gap-8 text-xs text-slate-500 font-medium">
             <div className="flex items-center gap-1.5">
-              <ShieldCheck size={14} className="text-emerald-400" />
+              <ShieldCheck size={14} className="text-emerald-600" />
               <span>Publicaciones 100% locales</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <MessageSquare size={14} className="text-emerald-400" />
+              <MessageSquare size={14} className="text-emerald-600" />
               <span>Contacto directo por WhatsApp</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <Tag size={14} className="text-emerald-400" />
+              <Tag size={14} className="text-emerald-600" />
               <span>Sin comisiones ni costos</span>
             </div>
           </div>
@@ -163,7 +163,7 @@ export default function MarketplaceHome() {
             {currentCategory && (
               <button
                 onClick={() => handleCategoryClick('')}
-                className="text-xs font-semibold text-purple-600 hover:text-purple-700 cursor-pointer"
+                className="text-xs font-semibold text-brand-600 hover:text-brand-700 cursor-pointer"
               >
                 Limpiar filtro
               </button>
@@ -180,18 +180,18 @@ export default function MarketplaceHome() {
                   onClick={() => handleCategoryClick(category.id)}
                   className={`flex flex-col items-center justify-center p-3.5 sm:p-4 rounded-xl transition-all cursor-pointer text-center group border ${
                     isSelected 
-                      ? 'bg-purple-50 text-purple-900 border-purple-300 ring-2 ring-purple-500/20 shadow-xs' 
+                      ? 'bg-brand-50 text-brand-900 border-brand-300 ring-2 ring-brand-500/20 shadow-xs' 
                       : 'bg-slate-50/70 hover:bg-slate-100 text-slate-700 border-slate-200/70 hover:border-slate-300'
                   }`}
                 >
                   <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-2 transition-all ${
                     isSelected 
-                      ? 'bg-purple-600 text-white shadow-xs' 
-                      : 'bg-white text-slate-600 border border-slate-200/60 group-hover:text-purple-600 group-hover:border-purple-200'
+                      ? 'bg-brand-600 text-white shadow-xs' 
+                      : 'bg-white text-slate-600 border border-slate-200/60 group-hover:text-brand-600 group-hover:border-brand-200'
                   }`}>
                     <Icon size={18} />
                   </div>
-                  <span className={`text-xs font-bold leading-tight ${isSelected ? 'text-purple-950' : 'group-hover:text-slate-900'}`}>
+                  <span className={`text-xs font-bold leading-tight ${isSelected ? 'text-brand-950' : 'group-hover:text-slate-900'}`}>
                     {category.name}
                   </span>
                 </button>
@@ -225,12 +225,12 @@ export default function MarketplaceHome() {
 
           {loading ? (
             <div className="flex flex-col items-center justify-center py-24 bg-white rounded-3xl border border-slate-200/80">
-              <Loader2 className="animate-spin text-purple-600 mb-3" size={32} />
+              <Loader2 className="animate-spin text-brand-600 mb-3" size={32} />
               <p className="text-xs font-semibold text-slate-500">Cargando publicaciones...</p>
             </div>
           ) : products.length === 0 ? (
             <div className="text-center py-20 bg-white rounded-3xl border border-slate-200/80 p-8 shadow-xs">
-              <div className="w-14 h-14 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <div className="w-14 h-14 bg-brand-50 text-brand-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <Package size={28} />
               </div>
               <h3 className="text-base font-bold text-slate-900 mb-1">No hay publicaciones con estos filtros</h3>
@@ -243,7 +243,7 @@ export default function MarketplaceHome() {
                   setSearchInput('')
                   setSearchParams({})
                 }}
-                className="bg-purple-600 text-white px-5 py-2.5 rounded-xl text-xs font-semibold hover:bg-purple-700 transition-colors shadow-xs cursor-pointer"
+                className="bg-brand-600 text-white px-5 py-2.5 rounded-xl text-xs font-semibold hover:bg-brand-700 transition-colors shadow-xs cursor-pointer"
               >
                 Ver todos los productos
               </button>
@@ -258,18 +258,18 @@ export default function MarketplaceHome() {
         </section>
 
         {/* Bottom CTA Banner */}
-        <section className="mt-16 bg-gradient-to-r from-purple-700 to-indigo-700 rounded-3xl p-6 sm:p-10 text-white shadow-xl shadow-purple-900/10 flex flex-col md:flex-row items-center justify-between gap-6">
+        <section className="mt-16 bg-brand-700 rounded-3xl p-6 sm:p-10 text-white shadow-xl shadow-brand-900/5 flex flex-col md:flex-row items-center justify-between gap-6 border border-brand-800">
           <div>
             <h3 className="text-xl sm:text-2xl font-black mb-2 tracking-tight">
               ¿Tenés algo para vender en Jáchal?
             </h3>
-            <p className="text-xs sm:text-sm text-purple-100 max-w-xl">
+            <p className="text-xs sm:text-sm text-brand-100 max-w-xl">
               Publicá tu auto, moto, terreno, teléfono o herramientas en minutos. Es gratis y conectás directo por WhatsApp con compradores locales.
             </p>
           </div>
           <button 
             onClick={() => window.location.href = '/mercado/publicar'}
-            className="shrink-0 bg-white text-purple-900 hover:bg-purple-50 font-bold px-6 py-3 rounded-xl transition-all shadow-md flex items-center gap-2 text-sm cursor-pointer"
+            className="shrink-0 bg-white text-brand-900 hover:bg-slate-50 font-bold px-6 py-3 rounded-xl transition-all shadow-md flex items-center gap-2 text-sm cursor-pointer"
           >
             <span>Publicar artículo gratis</span>
             <ArrowRight size={16} />

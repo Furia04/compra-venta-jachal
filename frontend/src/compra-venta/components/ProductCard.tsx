@@ -83,13 +83,13 @@ export default function ProductCard({ product, id, title, price, image, location
       <div className="p-4 flex-1 flex flex-col justify-between">
         <div>
           <div className="flex items-baseline gap-1 text-slate-900 mb-1">
-            <span className="text-sm font-bold text-purple-600">$</span>
+            <span className="text-sm font-bold text-brand-600">$</span>
             <span className="text-xl sm:text-2xl font-black tracking-tight tabular-nums">
               {productPrice.toLocaleString('es-AR')}
             </span>
           </div>
           
-          <h3 className="text-xs sm:text-sm font-semibold text-slate-700 group-hover:text-purple-700 transition-colors line-clamp-2 leading-snug mb-3">
+          <h3 className="text-xs sm:text-sm font-semibold text-slate-700 group-hover:text-brand-700 transition-colors line-clamp-2 leading-snug mb-3">
             {productTitle}
           </h3>
         </div>

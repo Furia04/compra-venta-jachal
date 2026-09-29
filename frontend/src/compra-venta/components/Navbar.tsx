@@ -30,11 +30,11 @@ export default function Navbar() {
               to="/mercado" 
               className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 flex items-center gap-2 group"
             >
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white shadow-sm shadow-purple-500/20 group-hover:scale-105 transition-transform duration-200">
+              <div className="w-9 h-9 rounded-xl bg-brand-600 flex items-center justify-center text-white shadow-sm shadow-brand-500/20 group-hover:scale-105 transition-transform duration-200">
                 <ShoppingBag size={18} />
               </div>
               <span>
-                Jáchal<span className="text-purple-600">Vende</span>
+                Jáchal<span className="text-brand-600">Vende</span>
               </span>
             </Link>
 
@@ -47,8 +47,8 @@ export default function Navbar() {
                 <Wrench size={13} className="text-blue-600" />
                 Oficios & Servicios
               </Link>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white text-purple-700 shadow-xs border border-slate-200/50">
-                <ShoppingBag size={13} className="text-purple-600" />
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white text-brand-700 shadow-xs border border-slate-200/50">
+                <ShoppingBag size={13} className="text-brand-600" />
                 Compra & Venta
               </span>
             </div>
@@ -62,12 +62,12 @@ export default function Navbar() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Buscar autos, teléfonos, herramientas en Jáchal..."
-                className="w-full bg-slate-50 hover:bg-slate-100/70 focus:bg-white border border-slate-200 rounded-xl py-2 pl-4 pr-10 focus:outline-none focus:ring-2 focus:ring-purple-500/30 focus:border-purple-500 transition-all text-sm placeholder:text-slate-400"
+                className="w-full bg-slate-50 hover:bg-slate-100/70 focus:bg-white border border-slate-200 rounded-xl py-2 pl-4 pr-10 focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition-all text-sm placeholder:text-slate-400"
               />
               <button 
                 type="submit" 
                 aria-label="Buscar"
-                className="absolute right-2.5 top-2 p-1 text-slate-400 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors cursor-pointer"
+                className="absolute right-2.5 top-2 p-1 text-slate-400 hover:text-brand-600 hover:bg-brand-50 rounded-lg transition-colors cursor-pointer"
               >
                 <Search size={16} />
               </button>
@@ -87,7 +87,7 @@ export default function Navbar() {
 
             <Link 
               to="/mercado/publicar" 
-              className="inline-flex items-center gap-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white px-3.5 sm:px-4 py-2 rounded-xl font-semibold transition-all shadow-sm shadow-purple-500/25 hover:shadow-md hover:shadow-purple-500/30 hover:-translate-y-0.5 active:translate-y-0 text-xs sm:text-sm cursor-pointer"
+              className="inline-flex items-center gap-1.5 bg-brand-600 hover:bg-brand-700 text-white px-3.5 sm:px-4 py-2 rounded-xl font-semibold transition-all shadow-sm shadow-brand-500/25 hover:shadow-md hover:shadow-brand-500/30 hover:-translate-y-0.5 active:translate-y-0 text-xs sm:text-sm cursor-pointer"
             >
               <Plus size={16} />
               <span>Publicar</span>
@@ -100,7 +100,7 @@ export default function Navbar() {
                   className="flex items-center gap-2 p-1 rounded-full hover:bg-slate-100 transition-colors cursor-pointer"
                   aria-expanded={dropdownOpen}
                 >
-                  <div className="w-8 h-8 sm:w-9 sm:h-9 bg-purple-100 text-purple-700 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm ring-2 ring-purple-500/20">
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 bg-brand-100 text-brand-700 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm ring-2 ring-brand-500/20">
                     {user?.name?.charAt(0).toUpperCase()}
                   </div>
                   <span className="hidden sm:inline text-xs font-semibold text-slate-700 max-w-[90px] truncate">
@@ -117,17 +117,17 @@ export default function Navbar() {
                     <Link
                       to="/mercado/perfil"
                       onClick={() => setDropdownOpen(false)}
-                      className="flex items-center px-4 py-2 text-xs font-medium text-slate-700 hover:bg-purple-50 hover:text-purple-700 transition-colors"
+                      className="flex items-center px-4 py-2 text-xs font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-700 transition-colors"
                     >
-                      <UserCircle size={15} className="mr-2 text-purple-600" />
+                      <UserCircle size={15} className="mr-2 text-brand-600" />
                       Mi Perfil
                     </Link>
                     <Link
                       to="/mercado/perfil"
                       onClick={() => setDropdownOpen(false)}
-                      className="flex items-center px-4 py-2 text-xs font-medium text-slate-700 hover:bg-purple-50 hover:text-purple-700 transition-colors"
+                      className="flex items-center px-4 py-2 text-xs font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-700 transition-colors"
                     >
-                      <Package size={15} className="mr-2 text-purple-600" />
+                      <Package size={15} className="mr-2 text-brand-600" />
                       Mis Publicaciones
                     </Link>
                     <div className="my-1 border-t border-slate-100" />
@@ -149,14 +149,14 @@ export default function Navbar() {
               <div className="hidden sm:flex items-center gap-2">
                 <Link
                   to="/mercado/login"
-                  className="text-slate-700 hover:text-purple-600 font-semibold px-3 py-2 rounded-xl hover:bg-slate-50 transition-colors text-xs flex items-center gap-1"
+                  className="text-slate-700 hover:text-brand-600 font-semibold px-3 py-2 rounded-xl hover:bg-slate-50 transition-colors text-xs flex items-center gap-1"
                 >
                   <LogIn size={15} />
                   Ingresar
                 </Link>
                 <Link
                   to="/mercado/registro"
-                  className="border border-slate-200 hover:border-purple-300 text-slate-700 hover:text-purple-700 hover:bg-purple-50/50 font-semibold px-3 py-2 rounded-xl transition-colors text-xs"
+                  className="border border-slate-200 hover:border-brand-300 text-slate-700 hover:text-brand-700 hover:bg-brand-50/50 font-semibold px-3 py-2 rounded-xl transition-colors text-xs"
                 >
                   Registrarse
                 </Link>
@@ -167,7 +167,7 @@ export default function Navbar() {
             <button 
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label="Abrir menú móvil"
-              className="sm:hidden p-2 text-slate-600 hover:text-purple-600 hover:bg-slate-100 rounded-xl transition-colors"
+              className="sm:hidden p-2 text-slate-600 hover:text-brand-600 hover:bg-slate-100 rounded-xl transition-colors"
             >
               {menuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
@@ -234,7 +234,7 @@ export default function Navbar() {
                 <Link
                   to="/mercado/registro"
                   onClick={() => setMenuOpen(false)}
-                  className="text-center py-2.5 bg-purple-50 text-purple-700 rounded-xl text-xs font-bold"
+                  className="text-center py-2.5 bg-brand-50 text-brand-700 rounded-xl text-xs font-bold"
                 >
                   Registrarse
                 </Link>

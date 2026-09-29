@@ -107,13 +107,13 @@ export default function Publish() {
         <div className="flex flex-col sm:flex-row justify-center gap-3">
           <Link
             to="/mercado/perfil"
-            className="bg-purple-50 text-purple-700 font-bold py-3 px-6 rounded-2xl hover:bg-purple-100 transition-colors text-xs sm:text-sm"
+            className="bg-brand-50 text-brand-700 font-bold py-3 px-6 rounded-2xl hover:bg-brand-100 transition-colors text-xs sm:text-sm"
           >
             Ver mis publicaciones
           </Link>
           <Link
             to="/mercado"
-            className="bg-purple-600 text-white font-bold py-3 px-6 rounded-2xl hover:bg-purple-700 transition-colors shadow-sm text-xs sm:text-sm"
+            className="bg-brand-600 text-white font-bold py-3 px-6 rounded-2xl hover:bg-brand-700 transition-colors shadow-sm text-xs sm:text-sm"
           >
             Ir al catálogo
           </Link>
@@ -127,7 +127,7 @@ export default function Publish() {
       
       {/* Header */}
       <div className="mb-8">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 text-purple-700 text-xs font-bold mb-3">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-50 text-brand-700 text-xs font-bold mb-3">
           <Sparkles size={13} />
           <span>Publicación 100% gratuita</span>
         </div>
@@ -140,15 +140,15 @@ export default function Publish() {
       </div>
 
       {!isAuthenticated && (
-        <div className="mb-8 bg-purple-50/80 border border-purple-200/80 text-purple-900 p-4 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+        <div className="mb-8 bg-brand-50/80 border border-brand-200/80 text-brand-900 p-4 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
           <div className="flex items-center gap-2.5">
-            <Info size={18} className="text-purple-600 shrink-0" />
+            <Info size={18} className="text-brand-600 shrink-0" />
             <span>Para que los compradores puedan ver tu nombre y teléfono, te sugerimos iniciar sesión.</span>
           </div>
           <Link
             to="/mercado/login"
             state={{ from: { pathname: '/mercado/publicar' } }}
-            className="bg-purple-600 text-white font-bold px-3.5 py-1.5 rounded-xl hover:bg-purple-700 transition-colors shrink-0 shadow-xs"
+            className="bg-brand-600 text-white font-bold px-3.5 py-1.5 rounded-xl hover:bg-brand-700 transition-colors shrink-0 shadow-xs"
           >
             Iniciar Sesión
           </Link>
@@ -181,9 +181,9 @@ export default function Publish() {
 
           <div 
             onClick={() => fileInputRef.current && fileInputRef.current.click()}
-            className="border-2 border-dashed border-slate-200 hover:border-purple-400 bg-slate-50/50 hover:bg-purple-50/20 rounded-2xl p-8 text-center transition-all cursor-pointer group"
+            className="border-2 border-dashed border-slate-200 hover:border-brand-400 bg-slate-50/50 hover:bg-brand-50/20 rounded-2xl p-8 text-center transition-all cursor-pointer group"
           >
-            <div className="w-12 h-12 bg-white rounded-2xl shadow-xs border border-slate-200/70 flex items-center justify-center mx-auto mb-3 text-slate-400 group-hover:text-purple-600 group-hover:scale-105 transition-all">
+            <div className="w-12 h-12 bg-white rounded-2xl shadow-xs border border-slate-200/70 flex items-center justify-center mx-auto mb-3 text-slate-400 group-hover:text-brand-600 group-hover:scale-105 transition-all">
               <UploadCloud size={24} />
             </div>
             <p className="text-xs font-bold text-slate-700">Hacé clic para seleccionar fotos de tu galería</p>
@@ -221,7 +221,7 @@ export default function Publish() {
               value={formData.title}
               onChange={handleChange}
               placeholder="Ej: Volkswagen Gol Trend 1.6 2018 Impecable"
-              className="w-full bg-slate-50 focus:bg-white border border-slate-200 rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all text-xs sm:text-sm font-medium"
+              className="w-full bg-slate-50 focus:bg-white border border-slate-200 rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all text-xs sm:text-sm font-medium"
               required
             />
           </div>
@@ -238,7 +238,7 @@ export default function Publish() {
                 onChange={handleChange}
                 placeholder="0.00"
                 min="0"
-                className="w-full bg-slate-50 focus:bg-white border border-slate-200 rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all text-xs sm:text-sm font-medium tabular-nums"
+                className="w-full bg-slate-50 focus:bg-white border border-slate-200 rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all text-xs sm:text-sm font-medium tabular-nums"
                 required
               />
             </div>
@@ -250,7 +250,7 @@ export default function Publish() {
                 name="category"
                 value={formData.category}
                 onChange={handleChange}
-                className="w-full bg-slate-50 focus:bg-white border border-slate-200 rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all text-xs sm:text-sm font-medium cursor-pointer" 
+                className="w-full bg-slate-50 focus:bg-white border border-slate-200 rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all text-xs sm:text-sm font-medium cursor-pointer" 
                 required
               >
                 <option value="vehiculos">Vehículos & Autos</option>
@@ -273,7 +273,7 @@ export default function Publish() {
               onChange={handleChange}
               rows={4}
               placeholder="Describí el estado, año, detalles de uso y cualquier información que le sirva al comprador..."
-              className="w-full bg-slate-50 focus:bg-white border border-slate-200 rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all text-xs sm:text-sm font-medium resize-none"
+              className="w-full bg-slate-50 focus:bg-white border border-slate-200 rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all text-xs sm:text-sm font-medium resize-none"
               required
             ></textarea>
           </div>
@@ -288,7 +288,7 @@ export default function Publish() {
               value={formData.location}
               onChange={handleChange}
               placeholder="Ej: San José de Jáchal, Niquivil, Villa Mercedes..."
-              className="w-full bg-slate-50 focus:bg-white border border-slate-200 rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all text-xs sm:text-sm font-medium"
+              className="w-full bg-slate-50 focus:bg-white border border-slate-200 rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all text-xs sm:text-sm font-medium"
               required
             />
           </div>
@@ -297,7 +297,7 @@ export default function Publish() {
         <button 
           type="submit" 
           disabled={loading}
-          className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold py-3.5 px-4 rounded-2xl transition-all shadow-md shadow-purple-600/25 text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70"
+          className="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3.5 px-4 rounded-2xl transition-all shadow-md shadow-brand-600/25 text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70"
         >
           {loading ? (
             <>

@@ -48,7 +48,7 @@ export default function ProductDetail() {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[65vh] text-slate-400">
-        <Loader2 className="animate-spin mb-3 text-purple-600" size={36} />
+        <Loader2 className="animate-spin mb-3 text-brand-600" size={36} />
         <p className="text-xs font-semibold text-slate-500">Cargando publicación...</p>
       </div>
     )
@@ -64,7 +64,7 @@ export default function ProductDetail() {
         <p className="text-xs text-slate-500 mb-6">El artículo que estás buscando no existe o ya fue retirado.</p>
         <Link 
           to="/mercado" 
-          className="inline-flex items-center gap-2 bg-purple-600 text-white px-5 py-2.5 rounded-xl text-xs font-semibold hover:bg-purple-700 transition-colors shadow-xs"
+          className="inline-flex items-center gap-2 bg-brand-600 text-white px-5 py-2.5 rounded-xl text-xs font-semibold hover:bg-brand-700 transition-colors shadow-xs"
         >
           <ArrowLeft size={15} />
           Volver al catálogo
@@ -111,7 +111,7 @@ export default function ProductDetail() {
       
       {/* Breadcrumb Navigation */}
       <div className="flex items-center gap-2 text-xs font-medium text-slate-500 mb-6">
-        <Link to="/mercado" className="inline-flex items-center gap-1 hover:text-purple-700 transition-colors">
+        <Link to="/mercado" className="inline-flex items-center gap-1 hover:text-brand-700 transition-colors">
           <ArrowLeft size={14} />
           <span>Volver a Jáchal Vende</span>
         </Link>
@@ -153,7 +153,7 @@ export default function ProductDetail() {
           {/* Description Card */}
           <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs">
             <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
-              <Sparkles size={18} className="text-purple-600" />
+              <Sparkles size={18} className="text-brand-600" />
               Descripción del artículo
             </h2>
             <p className="text-sm text-slate-600 leading-relaxed whitespace-pre-line text-pretty">
@@ -168,7 +168,7 @@ export default function ProductDetail() {
           {/* Price & Contact Box */}
           <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-sm">
             <div className="flex items-baseline gap-1 text-slate-900 mb-2">
-              <span className="text-lg font-bold text-purple-600">$</span>
+              <span className="text-lg font-bold text-brand-600">$</span>
               <span className="text-3xl sm:text-4xl font-black tracking-tight tabular-nums">
                 {Number(product.price).toLocaleString('es-AR')}
               </span>
@@ -180,11 +180,11 @@ export default function ProductDetail() {
 
             <div className="space-y-2 pb-6 border-b border-slate-100 text-xs text-slate-500 font-medium">
               <div className="flex items-center gap-2">
-                <MapPin size={15} className="text-purple-600 shrink-0" />
+                <MapPin size={15} className="text-brand-600 shrink-0" />
                 <span>{product.location || 'Jáchal, San Juan'}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Clock size={15} className="text-purple-600 shrink-0" />
+                <Clock size={15} className="text-brand-600 shrink-0" />
                 <span>
                   {product.createdAt ? new Date(product.createdAt).toLocaleDateString('es-AR', {
                     day: 'numeric',
@@ -219,7 +219,7 @@ export default function ProductDetail() {
 
               <button 
                 onClick={handleShare}
-                className="w-full bg-purple-50 hover:bg-purple-100 text-purple-700 font-semibold py-2.5 px-4 rounded-xl transition-colors flex items-center justify-center gap-2 text-xs cursor-pointer"
+                className="w-full bg-brand-50 hover:bg-brand-100 text-brand-700 font-semibold py-2.5 px-4 rounded-xl transition-colors flex items-center justify-center gap-2 text-xs cursor-pointer"
               >
                 {copied ? (
                   <>
@@ -243,7 +243,7 @@ export default function ProductDetail() {
             </h3>
             
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-11 h-11 bg-purple-100 text-purple-700 rounded-2xl flex items-center justify-center font-bold text-base shrink-0 ring-2 ring-purple-500/10">
+              <div className="w-11 h-11 bg-brand-100 text-brand-700 rounded-2xl flex items-center justify-center font-bold text-base shrink-0 ring-2 ring-brand-500/10">
                 {(seller.name || 'U').charAt(0).toUpperCase()}
               </div>
               <div className="min-w-0">

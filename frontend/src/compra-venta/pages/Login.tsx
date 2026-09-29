@@ -46,14 +46,14 @@ export default function Login() {
       <div className="max-w-md w-full space-y-6 bg-white p-8 sm:p-10 rounded-3xl shadow-[0_4px_24px_-4px_rgba(0,0,0,0.06)] border border-slate-200/80">
         
         <div className="text-center">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-purple-600 to-indigo-600 text-white flex items-center justify-center mx-auto mb-3 shadow-md shadow-purple-500/20">
+          <div className="w-12 h-12 rounded-2xl bg-brand-600 text-white flex items-center justify-center mx-auto mb-3 shadow-md shadow-brand-500/20">
             <ShoppingBag size={24} />
           </div>
           <h2 className="text-2xl font-black text-slate-900 tracking-tight">
             Iniciar Sesión
           </h2>
           <p className="mt-1 text-xs text-slate-500">
-            Ingresá a tu cuenta de <span className="font-semibold text-purple-700">Jáchal Vende</span>
+            Ingresá a tu cuenta de <span className="font-semibold text-brand-700">Jáchal Vende</span>
           </p>
         </div>
 
@@ -82,7 +82,7 @@ export default function Login() {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="ejemplo@correo.com"
-                  className="w-full bg-slate-50 focus:bg-white border border-slate-200 rounded-xl py-2.5 pl-10 pr-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all text-xs sm:text-sm font-medium"
+                  className="w-full bg-slate-50 focus:bg-white border border-slate-200 rounded-xl py-2.5 pl-10 pr-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all text-xs sm:text-sm font-medium"
                 />
               </div>
             </div>
@@ -102,7 +102,7 @@ export default function Login() {
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="••••••••"
-                  className="w-full bg-slate-50 focus:bg-white border border-slate-200 rounded-xl py-2.5 pl-10 pr-10 text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all text-xs sm:text-sm font-medium"
+                  className="w-full bg-slate-50 focus:bg-white border border-slate-200 rounded-xl py-2.5 pl-10 pr-10 text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all text-xs sm:text-sm font-medium"
                 />
                 <button
                   type="button"
@@ -118,7 +118,7 @@ export default function Login() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-md shadow-purple-600/20 text-xs sm:text-sm flex justify-center items-center gap-2 cursor-pointer disabled:opacity-70 mt-6"
+            className="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-md shadow-brand-600/20 text-xs sm:text-sm flex justify-center items-center gap-2 cursor-pointer disabled:opacity-70 mt-6"
           >
             {loading ? (
               <>
@@ -136,7 +136,7 @@ export default function Login() {
 
         <div className="text-center text-xs text-slate-500 pt-2 border-t border-slate-100">
           ¿No tenés una cuenta?{' '}
-          <Link to="/mercado/registro" className="font-bold text-purple-600 hover:text-purple-700">
+          <Link to="/mercado/registro" className="font-bold text-brand-600 hover:text-brand-700">
             Registrate gratis
           </Link>
         </div>

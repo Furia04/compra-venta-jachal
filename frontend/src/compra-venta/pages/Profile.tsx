@@ -56,29 +56,29 @@ export default function Profile() {
       {/* User Header Card */}
       <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-sm mb-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div className="flex items-center gap-5">
-          <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-tr from-purple-600 to-indigo-600 text-white rounded-3xl flex items-center justify-center font-black text-2xl sm:text-3xl shadow-md shadow-purple-500/20 shrink-0">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 bg-brand-600 text-white rounded-3xl flex items-center justify-center font-black text-2xl sm:text-3xl shadow-md shadow-brand-500/20 shrink-0">
             {user.name?.charAt(0).toUpperCase()}
           </div>
           <div>
             <div className="flex items-center gap-2">
               <h1 className="text-xl sm:text-2xl font-black text-slate-900">{user.name}</h1>
-              <span className="bg-purple-50 text-purple-700 text-[10px] font-bold px-2 py-0.5 rounded-md border border-purple-100">
+              <span className="bg-brand-50 text-brand-700 text-[10px] font-bold px-2 py-0.5 rounded-md border border-brand-100">
                 Vecino Jáchal
               </span>
             </div>
             <div className="flex flex-wrap items-center gap-4 mt-2 text-xs text-slate-500 font-medium">
               <div className="flex items-center gap-1">
-                <Mail size={14} className="text-purple-600" />
+                <Mail size={14} className="text-brand-600" />
                 <span>{user.email}</span>
               </div>
               {user.phone && (
                 <div className="flex items-center gap-1">
-                  <Phone size={14} className="text-purple-600" />
+                  <Phone size={14} className="text-brand-600" />
                   <span>{user.phone}</span>
                 </div>
               )}
               <div className="flex items-center gap-1">
-                <MapPin size={14} className="text-purple-600" />
+                <MapPin size={14} className="text-brand-600" />
                 <span>{user.location || 'Jáchal, San Juan'}</span>
               </div>
             </div>
@@ -88,7 +88,7 @@ export default function Profile() {
         <div className="flex items-center gap-3 w-full md:w-auto">
           <Link
             to="/mercado/publicar"
-            className="flex-1 md:flex-none inline-flex items-center justify-center gap-1.5 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2.5 rounded-xl font-semibold transition-all shadow-xs text-xs sm:text-sm"
+            className="flex-1 md:flex-none inline-flex items-center justify-center gap-1.5 bg-brand-600 hover:bg-brand-700 text-white px-4 py-2.5 rounded-xl font-semibold transition-all shadow-xs text-xs sm:text-sm"
           >
             <PlusCircle size={16} />
             <span>Nueva Publicación</span>
@@ -107,18 +107,18 @@ export default function Profile() {
       <div>
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-lg sm:text-xl font-black text-slate-900 tracking-tight flex items-center gap-2">
-            <Package size={20} className="text-purple-600" />
+            <Package size={20} className="text-brand-600" />
             <span>Mis Publicaciones ({myListings.length})</span>
           </h2>
         </div>
 
         {loading ? (
           <div className="flex justify-center py-20 bg-white rounded-3xl border border-slate-200/80">
-            <Loader2 className="animate-spin text-purple-600" size={32} />
+            <Loader2 className="animate-spin text-brand-600" size={32} />
           </div>
         ) : myListings.length === 0 ? (
           <div className="bg-white rounded-3xl border border-slate-200/80 p-12 text-center shadow-xs">
-            <div className="w-14 h-14 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <div className="w-14 h-14 bg-brand-50 text-brand-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <Sparkles size={28} />
             </div>
             <h3 className="text-base font-bold text-slate-900 mb-1">No tenés publicaciones activas</h3>
@@ -127,7 +127,7 @@ export default function Profile() {
             </p>
             <Link
               to="/mercado/publicar"
-              className="inline-flex items-center gap-2 bg-purple-600 text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-purple-700 transition-colors text-xs shadow-xs"
+              className="inline-flex items-center gap-2 bg-brand-600 text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-brand-700 transition-colors text-xs shadow-xs"
             >
               <PlusCircle size={16} />
               <span>Publicar mi primer artículo</span>
