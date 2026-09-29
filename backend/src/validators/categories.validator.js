@@ -1,5 +1,8 @@
 import { z } from 'zod';
 
+/**
+ * Esquema de validación para la creación de una nueva categoría.
+ */
 export const createCategorySchema =
   z.object({
     name: z
@@ -19,6 +22,9 @@ export const createCategorySchema =
       .nullable(),
   });
 
+/**
+ * Esquema de validación para la modificación parcial de una categoría existente.
+ */
 export const updateCategorySchema =
   z.object({
     name: z

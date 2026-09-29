@@ -1,5 +1,9 @@
 import { z } from 'zod';
 
+/**
+ * Esquema de validación para el registro o actualización del perfil de un prestador.
+ * Permite especificar la descripción de su trabajo, ciudad y departamento.
+ */
 export const registerProviderSchema = z.object({
   description: z
     .string()

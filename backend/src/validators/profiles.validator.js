@@ -1,5 +1,9 @@
 import { z } from 'zod';
 
+/**
+ * Esquema de validación para la actualización del perfil de un usuario.
+ * Todos los campos son opcionales para permitir actualizaciones parciales (PATCH).
+ */
 export const updateProfileSchema = z.object({
   firstName: z
     .string()

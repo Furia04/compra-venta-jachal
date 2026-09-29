@@ -1,5 +1,12 @@
 import { supabase } from '../config/supabase.js';
 
+/**
+ * Busca un prestador por su UUID, comprobando primero que posea el rol 'PROVIDER'
+ * y luego obteniendo sus datos de perfil laboral.
+ * 
+ * @param {string} providerId - UUID del prestador.
+ * @returns {Promise<Object|null>} Perfil del prestador o null si no existe o no tiene el rol.
+ */
 export async function findProviderById(providerId) {
   // Verificar primero si tiene el rol PROVIDER
   const { data: roleCheck, error: roleCheckError } = await supabase
@@ -35,6 +42,11 @@ export async function findProviderById(providerId) {
   return profile;
 }
 
+/**
+ * Asigna el rol 'PROVIDER' a un usuario en la tabla `user_roles`.
+ * @param {string} userId - UUID del usuario.
+ * @returns {Promise<boolean>} true si se asignó el rol, false si ya lo poseía.
+ */
 export async function assignProviderRole(userId) {
   const { data: providerRole, error: roleError } = await supabase
     .from('roles')
@@ -75,6 +87,12 @@ export async function assignProviderRole(userId) {
   return true;
 }
 
+/**
+ * Actualiza los datos laborales de un prestador en la tabla `profiles`.
+ * @param {string} userId - UUID del prestador.
+ * @param {Object} fields - Campos a modificar (description, city, department, phone).
+ * @returns {Promise<Object>} Registro del perfil actualizado.
+ */
 export async function updateProviderProfile(userId, { description, city, department, phone }) {
   const updates = {};
   if (description !== undefined) updates.description = description;

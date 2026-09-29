@@ -1,5 +1,10 @@
 import { supabase } from '../config/supabase.js';
 
+/**
+ * Busca el registro de perfil asociado a un usuario por su UUID.
+ * @param {string} userId - UUID del usuario.
+ * @returns {Promise<Object|null>} Objeto de perfil o null si no se encuentra.
+ */
 export async function findProfileById(userId) {
   const { data, error } = await supabase
     .from('profiles')
@@ -14,6 +19,12 @@ export async function findProfileById(userId) {
   return data;
 }
 
+/**
+ * Actualiza los campos de un perfil de usuario en la tabla `profiles`.
+ * @param {string} userId - UUID del usuario.
+ * @param {Object} fields - Campos modificables.
+ * @returns {Promise<Object>} Perfil actualizado.
+ */
 export async function updateProfile(userId, { firstName, lastName, phone, profileImageUrl, description, city, department }) {
   const updates = {};
 

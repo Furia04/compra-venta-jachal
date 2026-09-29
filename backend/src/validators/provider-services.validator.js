@@ -1,5 +1,9 @@
 import { z } from 'zod';
 
+/**
+ * Esquema de validación para vincular un servicio al catálogo de un prestador.
+ * Incluye validación cruzada: si se especifican priceFrom y priceTo, priceTo >= priceFrom.
+ */
 export const createProviderServiceSchema = z.object({
   serviceId: z
     .number({ required_error: 'El serviceId es requerido', invalid_type_error: 'El serviceId debe ser un número' })
@@ -37,6 +41,9 @@ export const createProviderServiceSchema = z.object({
   }
 );
 
+/**
+ * Esquema de validación para modificar un servicio de un prestador.
+ */
 export const updateProviderServiceSchema = z.object({
   priceFrom: z
     .number({ invalid_type_error: 'El precio inicial debe ser un número' })

@@ -14,17 +14,42 @@ function Navbar() {
         </Link>
 
         {/* Switcher entre emprendimientos */}
-        <div className="hidden sm:inline-flex items-center p-1 bg-gray-100 rounded-xl text-xs font-semibold">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white text-blue-700 shadow-xs">
-            <Wrench size={13} className="text-blue-600" />
-            Oficios & Servicios
+        <div style={{
+          display: 'flex',
+          gap: 'var(--spacing-sm)',
+          border: '1px solid var(--color-border)',
+          borderRadius: 'var(--radius-md)',
+          padding: '2px',
+          backgroundColor: 'var(--color-bg-secondary)'
+        }} className="hidden md:flex">
+          <span style={{
+            padding: 'var(--spacing-xs) var(--spacing-sm)',
+            borderRadius: 'var(--radius-sm)',
+            backgroundColor: 'var(--color-surface)',
+            color: 'var(--color-primary)',
+            fontSize: '0.85rem',
+            fontWeight: 600,
+            boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.25rem'
+          }}>
+            <Wrench size={14} /> Oficios & Servicios
           </span>
           <Link
             to="/mercado"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-gray-600 hover:text-gray-900 transition-colors"
+            style={{
+              padding: 'var(--spacing-xs) var(--spacing-sm)',
+              borderRadius: 'var(--radius-sm)',
+              textDecoration: 'none',
+              color: 'var(--color-text-secondary)',
+              fontSize: '0.85rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.25rem'
+            }}
           >
-            <ShoppingBag size={13} className="text-purple-600" />
-            Compra & Venta
+            <ShoppingBag size={14} /> Compra & Venta
           </Link>
         </div>
       </div>

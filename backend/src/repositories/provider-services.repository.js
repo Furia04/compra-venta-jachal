@@ -1,5 +1,12 @@
 import { supabase } from '../config/supabase.js';
 
+/**
+ * Consulta los servicios vinculados a un prestador, incluyendo los datos del servicio y su categoría.
+ * @param {string} providerId - UUID del prestador.
+ * @param {Object} [options] - Opciones de filtrado.
+ * @param {boolean} [options.includeInactive=false] - Incluir servicios dados de baja.
+ * @returns {Promise<Array>} Lista de servicios del prestador.
+ */
 export async function findServicesByProviderId(providerId, { includeInactive = false } = {}) {
   let query = supabase
     .from('provider_services')
@@ -35,6 +42,11 @@ export async function findServicesByProviderId(providerId, { includeInactive = f
   return data;
 }
 
+/**
+ * Busca un registro de provider_service por su ID único.
+ * @param {number|string} id - ID del registro.
+ * @returns {Promise<Object|null>} Registro encontrado o null.
+ */
 export async function findProviderServiceById(id) {
   const { data, error } = await supabase
     .from('provider_services')
@@ -46,6 +58,12 @@ export async function findProviderServiceById(id) {
   return data;
 }
 
+/**
+ * Verifica si ya existe una vinculación activa o inactiva entre un prestador y un servicio determinado.
+ * @param {string} providerId - UUID del prestador.
+ * @param {number|string} serviceId - ID del servicio.
+ * @returns {Promise<Object|null>} Relación existente o null.
+ */
 export async function findProviderServiceRelation(providerId, serviceId) {
   const { data, error } = await supabase
     .from('provider_services')
@@ -58,6 +76,16 @@ export async function findProviderServiceRelation(providerId, serviceId) {
   return data;
 }
 
+/**
+ * Inserta una nueva relación entre un prestador y un servicio en `provider_services`.
+ * @param {Object} params - Datos de la relación.
+ * @param {string} params.providerId - UUID del prestador.
+ * @param {number} params.serviceId - ID del servicio.
+ * @param {number} [params.priceFrom] - Precio desde.
+ * @param {number} [params.priceTo] - Precio hasta.
+ * @param {string} [params.description] - Descripción de la prestación.
+ * @returns {Promise<Object>} Registro creado.
+ */
 export async function createProviderServiceRecord({ providerId, serviceId, priceFrom, priceTo, description }) {
   const { data, error } = await supabase
     .from('provider_services')
@@ -76,6 +104,12 @@ export async function createProviderServiceRecord({ providerId, serviceId, price
   return data;
 }
 
+/**
+ * Actualiza los campos de un servicio ofrecido por un prestador.
+ * @param {number|string} id - ID del registro.
+ * @param {Object} fields - Campos modificables (priceFrom, priceTo, description, isActive).
+ * @returns {Promise<Object>} Registro actualizado.
+ */
 export async function updateProviderServiceRecord(id, { priceFrom, priceTo, description, isActive }) {
   const updates = {};
   if (priceFrom !== undefined) updates.price_from = priceFrom;

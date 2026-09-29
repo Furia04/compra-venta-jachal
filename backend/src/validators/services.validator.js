@@ -1,5 +1,8 @@
 import { z } from 'zod';
 
+/**
+ * Esquema de validación para la creación de un nuevo servicio.
+ */
 export const createServiceSchema = z.object({
   categoryId: z
     .number({ required_error: 'El categoryId es requerido', invalid_type_error: 'El categoryId debe ser un número' })
@@ -20,6 +23,9 @@ export const createServiceSchema = z.object({
     .nullable(),
 });
 
+/**
+ * Esquema de validación para la edición de un servicio existente.
+ */
 export const updateServiceSchema = z.object({
   name: z
     .string()

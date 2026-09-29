@@ -1,5 +1,10 @@
 import { z } from 'zod';
 
+/**
+ * Esquema de validación para el registro de nuevos usuarios.
+ * Valida formato de email, longitud mínima de contraseña (8 caracteres),
+ * nombre y apellido obligatorios, y formato opcional de teléfono.
+ */
 export const registerSchema = z.object({
   email: z
     .string()
@@ -27,6 +32,10 @@ export const registerSchema = z.object({
     .optional(),
 });
 
+/**
+ * Esquema de validación para el inicio de sesión.
+ * Requiere un email con formato válido y una contraseña no vacía.
+ */
 export const loginSchema = z.object({
   email: z
     .string()

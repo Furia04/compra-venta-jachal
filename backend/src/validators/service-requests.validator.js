@@ -1,5 +1,8 @@
 import { z } from 'zod';
 
+/**
+ * Esquema de validación para la creación de solicitudes de servicio por parte de un cliente.
+ */
 export const createServiceRequestSchema = z.object({
   providerId: z
     .string({ required_error: 'El providerId es requerido' })
@@ -43,6 +46,10 @@ export const createServiceRequestSchema = z.object({
     .nullable(),
 });
 
+/**
+ * Esquema de validación para la actualización del estado de una solicitud.
+ * Estados permitidos: PENDING, ACCEPTED, REJECTED, IN_PROGRESS, COMPLETED, CANCELLED.
+ */
 export const updateServiceRequestStatusSchema = z.object({
   status: z.enum(
     ['PENDING', 'ACCEPTED', 'REJECTED', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED'],
