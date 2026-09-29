@@ -2,6 +2,9 @@ import type { Product } from '../types/product'
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
 
+/**
+ * Catálogo de productos simulados (Mock Data) para demostración o funcionamiento offline.
+ */
 export const FALLBACK_PRODUCTS: Product[] = [
   {
     _id: 'mock-1',
@@ -69,6 +72,15 @@ export const FALLBACK_PRODUCTS: Product[] = [
   }
 ]
 
+/**
+ * Función auxiliar de petición HTTP para el módulo Marketplace.
+ * Gestiona automáticamente el encabezado Authorization con el token JWT almacenado en `localStorage`.
+ * 
+ * @template T - Tipo esperado de respuesta.
+ * @param {string} endpoint - Ruta relativa del endpoint.
+ * @param {RequestInit} [options={}] - Configuración de la petición fetch.
+ * @returns {Promise<T>} Datos deserializados de la respuesta.
+ */
 async function request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
   const token = localStorage.getItem('token')
   const headers: Record<string, string> = {
@@ -102,7 +114,14 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
   return response.json()
 }
 
+/**
+ * Objeto que agrupa todos los servicios de la API para el módulo de Compra-Venta / Marketplace.
+ */
 export const marketplaceApi = {
+  /**
+   * Consulta el catálogo de productos publicados con filtros de categoría y texto de búsqueda.
+   * Cuenta con fallback a productos de muestra si el endpoint no responde.
+   */
   getProducts: async (params?: { category?: string; search?: string }): Promise<Product[]> => {
     try {
       const query = new URLSearchParams()
@@ -126,6 +145,9 @@ export const marketplaceApi = {
     return filtered
   },
 
+  /**
+   * Obtiene un producto por su identificador único.
+   */
   getProductById: async (id: string): Promise<Product> => {
     try {
       const res = await request<{ success?: boolean; data?: Product } | Product>(`/products/${id}`)
@@ -139,6 +161,9 @@ export const marketplaceApi = {
     return FALLBACK_PRODUCTS[0]
   },
 
+  /**
+   * Publica un nuevo producto a la venta (soporta FormData con imágenes o JSON).
+   */
   createProduct: async (formData: FormData | Record<string, unknown>): Promise<Product> => {
     const isFormData = formData instanceof FormData
     return request<Product>('/products', {
@@ -147,12 +172,18 @@ export const marketplaceApi = {
     })
   },
 
+  /**
+   * Elimina una publicación de producto por su ID.
+   */
   deleteProduct: async (id: string): Promise<{ success: boolean }> => {
     return request<{ success: boolean }>(`/products/${id}`, {
       method: 'DELETE'
     })
   },
 
+  /**
+   * Obtiene las publicaciones activas del usuario autenticado.
+   */
   getMyListings: async (): Promise<Product[]> => {
     try {
       return await request<Product[]>('/products/user/my-listings')
@@ -161,6 +192,9 @@ export const marketplaceApi = {
     }
   },
 
+  /**
+   * Registra un nuevo usuario en la plataforma.
+   */
   register: async (userData: Record<string, unknown>) => {
     return request<{ token: string; _id: string; name: string; email: string; phone?: string; location?: string }>('/auth/register', {
       method: 'POST',
@@ -168,6 +202,9 @@ export const marketplaceApi = {
     })
   },
 
+  /**
+   * Inicia sesión con credenciales y obtiene el token JWT.
+   */
   login: async (credentials: Record<string, unknown>) => {
     return request<{ token: string; _id: string; name: string; email: string; phone?: string; location?: string }>('/auth/login', {
       method: 'POST',
@@ -175,6 +212,9 @@ export const marketplaceApi = {
     })
   },
 
+  /**
+   * Obtiene los datos del usuario en sesión actual.
+   */
   getMe: async () => {
     return request<{ _id: string; name: string; email: string; phone?: string; location?: string }>('/auth/me')
   }

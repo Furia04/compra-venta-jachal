@@ -1,17 +1,15 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { Lock, Mail, User, Phone, MapPin, Eye, EyeOff, Loader2, AlertCircle, ShoppingBag, ArrowRight } from 'lucide-react'
+import { ShoppingBag } from 'lucide-react'
 
 export default function Register() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    password: '',
     phone: '',
-    location: 'San José de Jáchal',
+    password: '',
   })
-  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -28,19 +26,13 @@ export default function Register() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
-
-    if (formData.password.length < 6) {
-      setError('La contraseña debe tener al menos 6 caracteres.')
-      return
-    }
-
     setLoading(true)
 
     try {
       await register(formData)
       navigate('/mercado')
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Error al registrar la cuenta. Intenta nuevamente.'
+      const msg = err instanceof Error ? err.message : 'Error al registrar usuario.'
       setError(msg)
     } finally {
       setLoading(false)
@@ -48,167 +40,163 @@ export default function Register() {
   }
 
   return (
-    <div className="min-h-[85vh] flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
-      <div className="max-w-md w-full space-y-6 bg-white p-8 sm:p-10 rounded-3xl shadow-[0_4px_24px_-4px_rgba(0,0,0,0.06)] border border-slate-200/80">
-        
-        <div className="text-center">
-          <div className="w-12 h-12 rounded-2xl bg-brand-600 text-white flex items-center justify-center mx-auto mb-3 shadow-md shadow-brand-500/20">
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '80vh', padding: 'var(--spacing-xl) var(--spacing-lg)' }}>
+      <div style={{
+        maxWidth: '450px',
+        width: '100%',
+        backgroundColor: 'var(--color-surface)',
+        padding: '2rem',
+        borderRadius: 'var(--radius-md)',
+        border: '1px solid var(--color-border)',
+        boxShadow: '0 4px 6px rgba(0,0,0,0.05)'
+      }}>
+        <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+          <div style={{
+            width: '48px',
+            height: '48px',
+            borderRadius: 'var(--radius-md)',
+            backgroundColor: 'var(--color-primary)',
+            color: 'white',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '0 auto 1rem'
+          }}>
             <ShoppingBag size={24} />
           </div>
-          <h2 className="text-2xl font-black text-slate-900 tracking-tight">
-            Crear una cuenta
+          <h2 style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--color-primary)', margin: 0 }}>
+            Crear Cuenta
           </h2>
-          <p className="mt-1 text-xs text-slate-500">
-            Unite a la comunidad de compra y venta de Jáchal
+          <p style={{ fontSize: '0.9rem', color: 'var(--color-text-secondary)', marginTop: '0.5rem' }}>
+            Unite a Jáchal Vende para comprar y vender
           </p>
         </div>
 
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-2xl flex items-center gap-2 text-xs font-medium">
-            <AlertCircle size={16} className="shrink-0" />
-            <span>{error}</span>
+          <div style={{ backgroundColor: '#fee2e2', color: '#b91c1c', padding: '1rem', borderRadius: 'var(--radius-sm)', marginBottom: '1rem', fontSize: '0.9rem' }}>
+            {error}
           </div>
         )}
 
-        <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <div>
+            <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.5rem' }}>
+              Nombre Completo *
+            </label>
+            <input
+              type="text"
+              name="name"
+              required
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Juan Pérez"
+              style={{
+                width: '100%',
+                padding: 'var(--spacing-md)',
+                fontSize: '1rem',
+                border: '1px solid var(--color-border)',
+                borderRadius: 'var(--radius-md)',
+                backgroundColor: 'var(--color-bg-secondary)',
+                color: 'var(--color-text)'
+              }}
+            />
+          </div>
+
+          <div>
+            <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.5rem' }}>
+              Correo Electrónico *
+            </label>
+            <input
+              type="email"
+              name="email"
+              required
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="ejemplo@correo.com"
+              style={{
+                width: '100%',
+                padding: 'var(--spacing-md)',
+                fontSize: '1rem',
+                border: '1px solid var(--color-border)',
+                borderRadius: 'var(--radius-md)',
+                backgroundColor: 'var(--color-bg-secondary)',
+                color: 'var(--color-text)'
+              }}
+            />
+          </div>
           
-          {/* Nombre completo */}
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-              Nombre y Apellido
+            <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.5rem' }}>
+              Teléfono (WhatsApp)
             </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                <User size={16} />
-              </div>
-              <input
-                type="text"
-                name="name"
-                required
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Ej: Juan Pérez"
-                className="w-full bg-slate-50 focus:bg-white border border-slate-200 rounded-xl py-2.5 pl-10 pr-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all text-xs sm:text-sm font-medium"
-              />
-            </div>
+            <input
+              type="tel"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              placeholder="Ej: 264..."
+              style={{
+                width: '100%',
+                padding: 'var(--spacing-md)',
+                fontSize: '1rem',
+                border: '1px solid var(--color-border)',
+                borderRadius: 'var(--radius-md)',
+                backgroundColor: 'var(--color-bg-secondary)',
+                color: 'var(--color-text)'
+              }}
+            />
           </div>
 
-          {/* Email */}
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-              Correo Electrónico
+            <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.5rem' }}>
+              Contraseña *
             </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                <Mail size={16} />
-              </div>
-              <input
-                type="email"
-                name="email"
-                required
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="ejemplo@correo.com"
-                className="w-full bg-slate-50 focus:bg-white border border-slate-200 rounded-xl py-2.5 pl-10 pr-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all text-xs sm:text-sm font-medium"
-              />
-            </div>
-          </div>
-
-          {/* WhatsApp / Teléfono */}
-          <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-              Número de WhatsApp (para contacto)
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                <Phone size={16} />
-              </div>
-              <input
-                type="tel"
-                name="phone"
-                required
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="Ej: 2641234567"
-                className="w-full bg-slate-50 focus:bg-white border border-slate-200 rounded-xl py-2.5 pl-10 pr-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all text-xs sm:text-sm font-medium"
-              />
-            </div>
-          </div>
-
-          {/* Ubicación */}
-          <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-              Distrito / Zona
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                <MapPin size={16} />
-              </div>
-              <input
-                type="text"
-                name="location"
-                value={formData.location}
-                onChange={handleChange}
-                placeholder="Ej: San José, Niquivil, Villa Mercedes"
-                className="w-full bg-slate-50 focus:bg-white border border-slate-200 rounded-xl py-2.5 pl-10 pr-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all text-xs sm:text-sm font-medium"
-              />
-            </div>
-          </div>
-
-          {/* Contraseña */}
-          <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-              Contraseña
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                <Lock size={16} />
-              </div>
-              <input
-                type={showPassword ? 'text' : 'password'}
-                name="password"
-                required
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="Mínimo 6 caracteres"
-                className="w-full bg-slate-50 focus:bg-white border border-slate-200 rounded-xl py-2.5 pl-10 pr-10 text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all text-xs sm:text-sm font-medium"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 cursor-pointer"
-              >
-                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-              </button>
-            </div>
+            <input
+              type="password"
+              name="password"
+              required
+              minLength={6}
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="••••••••"
+              style={{
+                width: '100%',
+                padding: 'var(--spacing-md)',
+                fontSize: '1rem',
+                border: '1px solid var(--color-border)',
+                borderRadius: 'var(--radius-md)',
+                backgroundColor: 'var(--color-bg-secondary)',
+                color: 'var(--color-text)'
+              }}
+            />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-md shadow-brand-600/20 text-xs sm:text-sm flex justify-center items-center gap-2 cursor-pointer disabled:opacity-70 mt-6"
+            style={{
+              marginTop: '1rem',
+              padding: 'var(--spacing-md)',
+              backgroundColor: 'var(--color-primary)',
+              color: 'white',
+              border: 'none',
+              borderRadius: 'var(--radius-md)',
+              fontSize: '1rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+              opacity: loading ? 0.7 : 1
+            }}
           >
-            {loading ? (
-              <>
-                <Loader2 className="animate-spin" size={16} />
-                <span>Creando cuenta...</span>
-              </>
-            ) : (
-              <>
-                <span>Registrarme</span>
-                <ArrowRight size={15} />
-              </>
-            )}
+            {loading ? 'Creando cuenta...' : 'Crear Cuenta'}
           </button>
         </form>
 
-        <div className="text-center text-xs text-slate-500 pt-2 border-t border-slate-100">
+        <div style={{ textAlign: 'center', marginTop: '1.5rem', paddingTop: '1.5rem', borderTop: '1px solid var(--color-border)', fontSize: '0.9rem', color: 'var(--color-text-secondary)' }}>
           ¿Ya tenés una cuenta?{' '}
-          <Link to="/mercado/login" className="font-bold text-brand-600 hover:text-brand-700">
-            Iniciá sesión aquí
+          <Link to="/mercado/login" style={{ color: 'var(--color-primary)', fontWeight: 600, textDecoration: 'none' }}>
+            Iniciar Sesión
           </Link>
         </div>
-
       </div>
     </div>
   )

@@ -10,7 +10,6 @@ import {
 
 import { authenticate } from '../middlewares/auth.middleware.js';
 import { authorize } from '../middlewares/authorize.middleware.js';
-
 import { validate } from '../middlewares/validate.middleware.js';
 import { optionalAuthenticate } from '../middlewares/optional-auth.middleware.js';
 
@@ -21,19 +20,32 @@ import {
 
 const router = Router();
 
-// Público
+/**
+ * @route GET /api/categories
+ * @desc  Lista todas las categorías activas (o todas si quien consulta es ADMIN)
+ * @access Público con detección de rol opcional
+ */
 router.get(
   '/',
   optionalAuthenticate,
   getCategoriesController
 );
 
+/**
+ * @route GET /api/categories/:id
+ * @desc  Obtiene el detalle de una categoría por su ID
+ * @access Público
+ */
 router.get(
   '/:id',
   getCategoryByIdController
 );
 
-// Solo ADMIN
+/**
+ * @route POST /api/categories
+ * @desc  Crea una nueva categoría
+ * @access Privado (solo rol ADMIN)
+ */
 router.post(
   '/',
   authenticate,
@@ -42,6 +54,11 @@ router.post(
   createCategoryController
 );
 
+/**
+ * @route PATCH /api/categories/:id
+ * @desc  Actualiza datos de una categoría
+ * @access Privado (solo rol ADMIN)
+ */
 router.patch(
   '/:id',
   authenticate,
@@ -50,6 +67,11 @@ router.patch(
   updateCategoryController
 );
 
+/**
+ * @route DELETE /api/categories/:id
+ * @desc  Desactiva una categoría (baja lógica / soft delete)
+ * @access Privado (solo rol ADMIN)
+ */
 router.delete(
   '/:id',
   authenticate,

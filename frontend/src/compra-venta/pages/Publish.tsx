@@ -2,16 +2,6 @@ import { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { marketplaceApi } from '../services/marketplaceApi'
-import { 
-  UploadCloud, 
-  X, 
-  CheckCircle2, 
-  AlertCircle, 
-  Info, 
-  Loader2,
-  Sparkles,
-  ArrowRight
-} from 'lucide-react'
 
 export default function Publish() {
   const { isAuthenticated } = useAuth()
@@ -87,7 +77,6 @@ export default function Publish() {
       await marketplaceApi.createProduct(data)
       setSuccess(true)
     } catch {
-      // Fallback para desarrollo/mock
       setSuccess(true)
     } finally {
       setLoading(false)
@@ -96,26 +85,23 @@ export default function Publish() {
 
   if (success) {
     return (
-      <div className="max-w-xl mx-auto px-4 py-20 text-center">
-        <div className="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-sm ring-8 ring-emerald-50">
-          <CheckCircle2 size={40} />
-        </div>
-        <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mb-3 tracking-tight">¡Publicación Exitosa!</h2>
-        <p className="text-sm text-slate-600 mb-8 max-w-md mx-auto">
-          Tu artículo ya está disponible en Jáchal Vende. Los compradores interesados podrán contactarte directamente por WhatsApp.
+      <div style={{ maxWidth: '600px', margin: '4rem auto', padding: '2rem', textAlign: 'center', backgroundColor: 'var(--color-surface)', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-border)' }}>
+        <h2 style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--color-primary)', marginBottom: '1rem' }}>¡Publicación Exitosa!</h2>
+        <p style={{ color: 'var(--color-text-secondary)', marginBottom: '2rem' }}>
+          Tu artículo ya está disponible. Los compradores interesados podrán contactarte directamente por WhatsApp.
         </p>
-        <div className="flex flex-col sm:flex-row justify-center gap-3">
+        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
           <Link
             to="/mercado/perfil"
-            className="bg-brand-50 text-brand-700 font-bold py-3 px-6 rounded-2xl hover:bg-brand-100 transition-colors text-xs sm:text-sm"
+            style={{ padding: 'var(--spacing-sm) var(--spacing-lg)', backgroundColor: 'var(--color-bg-secondary)', color: 'var(--color-text)', borderRadius: 'var(--radius-sm)', textDecoration: 'none', fontWeight: 600 }}
           >
-            Ver mis publicaciones
+            Mis publicaciones
           </Link>
           <Link
             to="/mercado"
-            className="bg-brand-600 text-white font-bold py-3 px-6 rounded-2xl hover:bg-brand-700 transition-colors shadow-sm text-xs sm:text-sm"
+            style={{ padding: 'var(--spacing-sm) var(--spacing-lg)', backgroundColor: 'var(--color-primary)', color: 'white', borderRadius: 'var(--radius-sm)', textDecoration: 'none', fontWeight: 600 }}
           >
-            Ir al catálogo
+            Ver catálogo
           </Link>
         </div>
       </div>
@@ -123,85 +109,65 @@ export default function Publish() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-      
-      {/* Header */}
-      <div className="mb-8">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-50 text-brand-700 text-xs font-bold mb-3">
-          <Sparkles size={13} />
-          <span>Publicación 100% gratuita</span>
-        </div>
-        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-          Publicar un artículo en Jáchal Vende
+    <div style={{ maxWidth: '800px', margin: '2rem auto', padding: '0 var(--spacing-lg)' }}>
+      <div style={{ marginBottom: '2rem' }}>
+        <h1 style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--color-primary)', margin: '0 0 0.5rem 0' }}>
+          Publicar un artículo
         </h1>
-        <p className="text-xs sm:text-sm text-slate-500 mt-1">
-          Completá los datos de tu producto o servicio para que los vecinos puedan encontrarte.
+        <p style={{ color: 'var(--color-text-secondary)', margin: 0 }}>
+          Completá los datos para que los vecinos puedan encontrarte.
         </p>
       </div>
 
       {!isAuthenticated && (
-        <div className="mb-8 bg-brand-50/80 border border-brand-200/80 text-brand-900 p-4 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
-          <div className="flex items-center gap-2.5">
-            <Info size={18} className="text-brand-600 shrink-0" />
-            <span>Para que los compradores puedan ver tu nombre y teléfono, te sugerimos iniciar sesión.</span>
-          </div>
-          <Link
-            to="/mercado/login"
-            state={{ from: { pathname: '/mercado/publicar' } }}
-            className="bg-brand-600 text-white font-bold px-3.5 py-1.5 rounded-xl hover:bg-brand-700 transition-colors shrink-0 shadow-xs"
-          >
+        <div style={{ padding: '1rem', backgroundColor: '#eef2ff', border: '1px solid #c7d2fe', borderRadius: 'var(--radius-sm)', marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ color: '#3730a3', fontSize: '0.9rem' }}>Te sugerimos iniciar sesión para que los compradores vean tu contacto.</span>
+          <Link to="/mercado/login" style={{ backgroundColor: '#4f46e5', color: 'white', padding: '0.5rem 1rem', borderRadius: 'var(--radius-sm)', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 600 }}>
             Iniciar Sesión
           </Link>
         </div>
       )}
 
       {error && (
-        <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-2xl flex items-center gap-2 text-xs font-medium">
-          <AlertCircle size={16} className="shrink-0" />
-          <span>{error}</span>
+        <div style={{ backgroundColor: '#fee2e2', color: '#b91c1c', padding: '1rem', borderRadius: 'var(--radius-sm)', marginBottom: '1rem', fontSize: '0.9rem' }}>
+          {error}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-8 bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-200/80">
+      <form onSubmit={handleSubmit} style={{ backgroundColor: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)', padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
         
-        {/* Photos section */}
+        {/* Photos */}
         <div>
-          <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+          <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.5rem' }}>
             Fotos del producto ({images.length}/6)
           </label>
-          
           <input 
             type="file" 
             ref={fileInputRef} 
             onChange={handleImageChange} 
             multiple 
             accept="image/*" 
-            className="hidden" 
+            style={{ display: 'none' }} 
           />
-
           <div 
             onClick={() => fileInputRef.current && fileInputRef.current.click()}
-            className="border-2 border-dashed border-slate-200 hover:border-brand-400 bg-slate-50/50 hover:bg-brand-50/20 rounded-2xl p-8 text-center transition-all cursor-pointer group"
+            style={{ border: '2px dashed var(--color-border)', borderRadius: 'var(--radius-md)', padding: '2rem', textAlign: 'center', cursor: 'pointer', backgroundColor: 'var(--color-bg-secondary)' }}
           >
-            <div className="w-12 h-12 bg-white rounded-2xl shadow-xs border border-slate-200/70 flex items-center justify-center mx-auto mb-3 text-slate-400 group-hover:text-brand-600 group-hover:scale-105 transition-all">
-              <UploadCloud size={24} />
-            </div>
-            <p className="text-xs font-bold text-slate-700">Hacé clic para seleccionar fotos de tu galería</p>
-            <p className="text-[11px] text-slate-400 mt-1">Formatos JPG, PNG, WebP (hasta 6 fotos).</p>
+            <p style={{ fontWeight: 600, margin: '0 0 0.5rem 0', color: 'var(--color-text)' }}>Seleccionar fotos</p>
+            <p style={{ fontSize: '0.85rem', color: 'var(--color-text-secondary)', margin: 0 }}>Formatos JPG, PNG, WebP</p>
           </div>
 
-          {/* Image Previews */}
           {imagePreviews.length > 0 && (
-            <div className="grid grid-cols-3 sm:grid-cols-6 gap-3 mt-4">
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginTop: '1rem' }}>
               {imagePreviews.map((src, idx) => (
-                <div key={idx} className="relative aspect-square rounded-xl overflow-hidden border border-slate-200 group">
-                  <img src={src} alt="Preview" className="w-full h-full object-cover" />
+                <div key={idx} style={{ position: 'relative', width: '80px', height: '80px', borderRadius: 'var(--radius-sm)', overflow: 'hidden', border: '1px solid var(--color-border)' }}>
+                  <img src={src} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   <button 
                     type="button" 
                     onClick={() => removeImage(idx)}
-                    className="absolute top-1 right-1 bg-slate-900/80 text-white rounded-full p-1 hover:bg-rose-600 transition-colors cursor-pointer"
+                    style={{ position: 'absolute', top: '2px', right: '2px', background: 'rgba(0,0,0,0.5)', color: 'white', border: 'none', borderRadius: '50%', width: '20px', height: '20px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px' }}
                   >
-                    <X size={12} />
+                    ✕
                   </button>
                 </div>
               ))}
@@ -209,107 +175,83 @@ export default function Publish() {
           )}
         </div>
 
-        {/* Basic Info */}
-        <div className="space-y-5">
+        {/* Info */}
+        <div>
+          <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.5rem' }}>Título *</label>
+          <input 
+            type="text" 
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            placeholder="Ej: Volkswagen Gol Trend 2018"
+            style={{ width: '100%', padding: 'var(--spacing-md)', fontSize: '1rem', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--color-bg-secondary)', color: 'var(--color-text)' }}
+            required
+          />
+        </div>
+        
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-              Título de la publicación *
-            </label>
+            <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.5rem' }}>Precio ($) *</label>
             <input 
-              type="text" 
-              name="title"
-              value={formData.title}
+              type="number" 
+              name="price"
+              value={formData.price}
               onChange={handleChange}
-              placeholder="Ej: Volkswagen Gol Trend 1.6 2018 Impecable"
-              className="w-full bg-slate-50 focus:bg-white border border-slate-200 rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all text-xs sm:text-sm font-medium"
+              placeholder="0.00"
+              style={{ width: '100%', padding: 'var(--spacing-md)', fontSize: '1rem', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--color-bg-secondary)', color: 'var(--color-text)' }}
               required
             />
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-                Precio en Pesos ($) *
-              </label>
-              <input 
-                type="number" 
-                name="price"
-                value={formData.price}
-                onChange={handleChange}
-                placeholder="0.00"
-                min="0"
-                className="w-full bg-slate-50 focus:bg-white border border-slate-200 rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all text-xs sm:text-sm font-medium tabular-nums"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-                Categoría *
-              </label>
-              <select 
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-                className="w-full bg-slate-50 focus:bg-white border border-slate-200 rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all text-xs sm:text-sm font-medium cursor-pointer" 
-                required
-              >
-                <option value="vehiculos">Vehículos & Autos</option>
-                <option value="inmuebles">Inmuebles & Terrenos</option>
-                <option value="tecnologia">Tecnología & Celulares</option>
-                <option value="hogar">Hogar & Muebles</option>
-                <option value="deportes">Deportes & Bicicletas</option>
-                <option value="otros">Otros artículos</option>
-              </select>
-            </div>
-          </div>
-
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-              Descripción detallada *
-            </label>
-            <textarea 
-              name="description"
-              value={formData.description}
+            <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.5rem' }}>Categoría *</label>
+            <select 
+              name="category"
+              value={formData.category}
               onChange={handleChange}
-              rows={4}
-              placeholder="Describí el estado, año, detalles de uso y cualquier información que le sirva al comprador..."
-              className="w-full bg-slate-50 focus:bg-white border border-slate-200 rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all text-xs sm:text-sm font-medium resize-none"
+              style={{ width: '100%', padding: 'var(--spacing-md)', fontSize: '1rem', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--color-bg-secondary)', color: 'var(--color-text)' }}
               required
-            ></textarea>
+            >
+              <option value="vehiculos">Vehículos</option>
+              <option value="inmuebles">Inmuebles</option>
+              <option value="tecnologia">Tecnología</option>
+              <option value="hogar">Hogar</option>
+              <option value="deportes">Deportes</option>
+              <option value="otros">Otros</option>
+            </select>
           </div>
+        </div>
 
-          <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-              Ubicación en Jáchal *
-            </label>
-            <input 
-              type="text" 
-              name="location"
-              value={formData.location}
-              onChange={handleChange}
-              placeholder="Ej: San José de Jáchal, Niquivil, Villa Mercedes..."
-              className="w-full bg-slate-50 focus:bg-white border border-slate-200 rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all text-xs sm:text-sm font-medium"
-              required
-            />
-          </div>
+        <div>
+          <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.5rem' }}>Descripción *</label>
+          <textarea 
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            rows={4}
+            style={{ width: '100%', padding: 'var(--spacing-md)', fontSize: '1rem', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--color-bg-secondary)', color: 'var(--color-text)', resize: 'vertical' }}
+            required
+          ></textarea>
+        </div>
+
+        <div>
+          <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.5rem' }}>Ubicación *</label>
+          <input 
+            type="text" 
+            name="location"
+            value={formData.location}
+            onChange={handleChange}
+            placeholder="Ej: San José de Jáchal"
+            style={{ width: '100%', padding: 'var(--spacing-md)', fontSize: '1rem', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--color-bg-secondary)', color: 'var(--color-text)' }}
+            required
+          />
         </div>
 
         <button 
           type="submit" 
           disabled={loading}
-          className="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3.5 px-4 rounded-2xl transition-all shadow-md shadow-brand-600/25 text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70"
+          style={{ padding: 'var(--spacing-md)', backgroundColor: 'var(--color-primary)', color: 'white', border: 'none', borderRadius: 'var(--radius-md)', fontSize: '1rem', fontWeight: 600, cursor: 'pointer', marginTop: '1rem' }}
         >
-          {loading ? (
-            <>
-              <Loader2 className="animate-spin" size={18} />
-              <span>Publicando artículo...</span>
-            </>
-          ) : (
-            <>
-              <span>Publicar Ahora</span>
-              <ArrowRight size={16} />
-            </>
-          )}
+          {loading ? 'Publicando...' : 'Publicar Ahora'}
         </button>
       </form>
     </div>

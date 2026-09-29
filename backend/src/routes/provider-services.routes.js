@@ -16,10 +16,18 @@ import {
 
 const router = Router();
 
-// Consultar servicios que ofrece un prestador
+/**
+ * @route GET /api/provider-services/provider/:providerId
+ * @desc  Lista todos los servicios vinculados a un prestador específico
+ * @access Público (si es dueño o ADMIN ve también inactivos)
+ */
 router.get('/provider/:providerId', optionalAuthenticate, getProviderServicesController);
 
-// Asociar un servicio (requiere rol PROVIDER)
+/**
+ * @route POST /api/provider-services
+ * @desc  Vincula un servicio del catálogo al prestador autenticado
+ * @access Privado (requiere rol PROVIDER)
+ */
 router.post(
   '/',
   authenticate,
@@ -28,7 +36,11 @@ router.post(
   createProviderServiceController
 );
 
-// Modificar servicio propio
+/**
+ * @route PATCH /api/provider-services/:id
+ * @desc  Modifica precios o descripción de un servicio propio
+ * @access Privado (dueño del servicio o ADMIN)
+ */
 router.patch(
   '/:id',
   authenticate,
@@ -36,7 +48,11 @@ router.patch(
   updateProviderServiceController
 );
 
-// Desactivar servicio propio
+/**
+ * @route DELETE /api/provider-services/:id
+ * @desc  Desactiva un servicio vinculado del prestador
+ * @access Privado (dueño del servicio o ADMIN)
+ */
 router.delete(
   '/:id',
   authenticate,

@@ -21,10 +21,20 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
+/**
+ * Proveedor de Contexto de Autenticación para el Frontend.
+ * 
+ * Responsabilidades:
+ * 1. Mantener en memoria el estado global de la sesión (`user`, `loading`, `isAuthenticated`).
+ * 2. Persistir el token JWT y los datos del usuario en `localStorage`.
+ * 3. Restaurar y validar la sesión al cargar la página (`useEffect -> loadUser`).
+ * 4. Exponer funciones para `login`, `register` y `logout`.
+ */
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
 
+  // Al montar la aplicación, recupera la sesión almacenada en localStorage
   useEffect(() => {
     async function loadUser() {
       const token = localStorage.getItem('token')
@@ -33,6 +43,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (token && savedUser) {
         try {
           setUser(JSON.parse(savedUser))
+          // Validar y refrescar datos con el backend
           const freshUser = await marketplaceApi.getMe()
           if (freshUser) {
             setUser(freshUser)
@@ -51,6 +62,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     loadUser()
   }, [])
 
+  /**
+   * Inicia sesión del usuario, guarda el token en localStorage y actualiza el estado.
+   */
   const login = async (credentials: { email: string; password: string }) => {
     const data = await marketplaceApi.login(credentials)
     if (data && data.token) {
@@ -68,6 +82,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  /**
+   * Registra un nuevo usuario en la API y guarda su sesión.
+   */
   const register = async (userData: Record<string, unknown>) => {
     const data = await marketplaceApi.register(userData)
     if (data && data.token) {
@@ -85,6 +102,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  /**
+   * Cierra la sesión activa y elimina las credenciales del almacenamiento local.
+   */
   const logout = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
@@ -98,6 +118,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   )
 }
 
+/**
+ * Hook personalizado para consumir el contexto de autenticación en cualquier componente.
+ * @throws {Error} si se utiliza fuera del AuthProvider.
+ */
 export function useAuth(): AuthContextType {
   const context = useContext(AuthContext)
   if (!context) {

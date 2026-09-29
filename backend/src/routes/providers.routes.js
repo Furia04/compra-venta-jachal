@@ -13,14 +13,32 @@ import {
 
 const router = Router();
 
-// Registro como prestador (requiere estar autenticado)
+/**
+ * @route POST /api/providers/register
+ * @desc  Registra al usuario autenticado como prestador (Worker/Provider)
+ * @access Privado (cualquier usuario registrado)
+ */
 router.post('/register', authenticate, validate(registerProviderSchema), registerProviderController);
 
-// Perfil propio de prestador
+/**
+ * @route GET /api/providers/me
+ * @desc  Obtiene el perfil laboral del prestador autenticado
+ * @access Privado
+ */
 router.get('/me', authenticate, getProviderProfileController);
+
+/**
+ * @route PATCH /api/providers/me
+ * @desc  Actualiza datos del perfil laboral del prestador autenticado
+ * @access Privado
+ */
 router.patch('/me', authenticate, validate(updateProviderProfileSchema), updateProviderProfileController);
 
-// Perfil público de cualquier prestador por ID
+/**
+ * @route GET /api/providers/:id
+ * @desc  Consulta el perfil público de cualquier prestador por su UUID
+ * @access Público
+ */
 router.get('/:id', getProviderProfileController);
 
 export default router;
