@@ -11,7 +11,9 @@ import {
   ArrowLeft, 
   ShieldCheck, 
   Check, 
-  Loader2 
+  Loader2,
+  PhoneCall,
+  Sparkles
 } from 'lucide-react'
 
 export default function ProductDetail() {
@@ -19,6 +21,7 @@ export default function ProductDetail() {
   const [product, setProduct] = useState<Product | null>(null)
   const [loading, setLoading] = useState(true)
   const [copied, setCopied] = useState(false)
+  const [isLiked, setIsLiked] = useState(false)
 
   useEffect(() => {
     async function fetchProduct() {
@@ -44,19 +47,26 @@ export default function ProductDetail() {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] text-gray-400">
-        <Loader2 className="animate-spin mb-3 text-brand-500" size={40} />
-        <p>Cargando información del producto...</p>
+      <div className="flex flex-col items-center justify-center min-h-[65vh] text-slate-400">
+        <Loader2 className="animate-spin mb-3 text-purple-600" size={36} />
+        <p className="text-xs font-semibold text-slate-500">Cargando publicación...</p>
       </div>
     )
   }
 
   if (!product) {
     return (
-      <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">Publicación no encontrada</h2>
-        <p className="text-gray-500 mb-8">El artículo que estás buscando no existe o ya fue retirado.</p>
-        <Link to="/mercado" className="bg-brand-500 text-white px-6 py-3 rounded-xl font-medium hover:bg-brand-600 transition-colors">
+      <div className="max-w-xl mx-auto px-4 py-20 text-center">
+        <div className="w-16 h-16 bg-slate-100 text-slate-400 rounded-3xl flex items-center justify-center mx-auto mb-4">
+          <ArrowLeft size={28} />
+        </div>
+        <h2 className="text-xl font-bold text-slate-900 mb-2">Publicación no encontrada</h2>
+        <p className="text-xs text-slate-500 mb-6">El artículo que estás buscando no existe o ya fue retirado.</p>
+        <Link 
+          to="/mercado" 
+          className="inline-flex items-center gap-2 bg-purple-600 text-white px-5 py-2.5 rounded-xl text-xs font-semibold hover:bg-purple-700 transition-colors shadow-xs"
+        >
+          <ArrowLeft size={15} />
           Volver al catálogo
         </Link>
       </div>
@@ -67,7 +77,7 @@ export default function ProductDetail() {
     name: 'Vendedor Particular',
     phone: '2645000000',
     location: product.location || 'Jáchal',
-    isVerified: false,
+    isVerified: true,
   }
 
   const cleanPhone = (seller.phone || '').replace(/\D/g, '')
@@ -81,7 +91,7 @@ export default function ProductDetail() {
       try {
         await navigator.share({
           title: product.title,
-          text: `Mira esta publicación en Jáchal Vende: ${product.title} - $${Number(product.price).toLocaleString('es-AR')}`,
+          text: `Mirá esta publicación en Jáchal Vende: ${product.title} - $${Number(product.price).toLocaleString('es-AR')}`,
           url: window.location.href,
         })
       } catch {
@@ -97,61 +107,84 @@ export default function ProductDetail() {
   const mainImage = product.images?.[0]?.url || product.image || 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&q=80&w=800'
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
       
-      {/* Back button & Breadcrumb */}
-      <div className="flex items-center space-x-4 mb-6">
-        <Link to="/mercado" className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-brand-500">
-          <ArrowLeft size={16} className="mr-1" />
-          Volver al catálogo
+      {/* Breadcrumb Navigation */}
+      <div className="flex items-center gap-2 text-xs font-medium text-slate-500 mb-6">
+        <Link to="/mercado" className="inline-flex items-center gap-1 hover:text-purple-700 transition-colors">
+          <ArrowLeft size={14} />
+          <span>Volver a Jáchal Vende</span>
         </Link>
-        <span className="text-gray-300">|</span>
-        <span className="text-sm text-gray-500 capitalize">{product.category || 'General'}</span>
+        <span className="text-slate-300">/</span>
+        <span className="capitalize text-slate-700">{product.category || 'Artículos'}</span>
+        <span className="text-slate-300">/</span>
+        <span className="truncate max-w-[200px] text-slate-400">{product.title}</span>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
-        {/* Left Column: Image and Description */}
-        <div className="md:col-span-2 space-y-6">
-          <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm relative group">
-            <img 
-              src={mainImage} 
-              alt={product.title} 
-              className="w-full h-auto max-h-[500px] object-cover"
-            />
+        {/* Left Column (Images + Description) */}
+        <div className="lg:col-span-8 space-y-6">
+          
+          {/* Main Product Image Card */}
+          <div className="bg-white rounded-3xl overflow-hidden border border-slate-200/80 shadow-[0_2px_8px_-2px_rgba(0,0,0,0.06)] relative group">
+            <div className="aspect-[16/10] sm:aspect-[16/9] w-full bg-slate-100 flex items-center justify-center overflow-hidden">
+              <img 
+                src={mainImage} 
+                alt={product.title} 
+                className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300 ease-out"
+              />
+            </div>
+
+            {/* Favorite Floating Button */}
             <button 
+              onClick={() => setIsLiked(!isLiked)}
               aria-label="Guardar en favoritos"
-              className="absolute top-4 right-4 p-3 bg-white/80 backdrop-blur-sm rounded-full text-gray-500 hover:text-accent-500 hover:bg-white transition-colors shadow-sm cursor-pointer"
+              className={`absolute top-4 right-4 p-3 rounded-2xl backdrop-blur-md transition-all shadow-md cursor-pointer ${
+                isLiked 
+                  ? 'bg-rose-500 text-white scale-105' 
+                  : 'bg-white/90 text-slate-600 hover:text-rose-500 hover:bg-white'
+              }`}
             >
-              <Heart size={24} />
+              <Heart size={20} className={isLiked ? 'fill-current' : ''} />
             </button>
           </div>
 
-          <div className="bg-white rounded-2xl p-6 sm:p-8 border border-gray-100 shadow-sm">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Descripción del artículo</h2>
-            <p className="text-gray-600 leading-relaxed whitespace-pre-line text-base">
-              {product.description || 'Sin descripción adicional.'}
+          {/* Description Card */}
+          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs">
+            <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+              <Sparkles size={18} className="text-purple-600" />
+              Descripción del artículo
+            </h2>
+            <p className="text-sm text-slate-600 leading-relaxed whitespace-pre-line text-pretty">
+              {product.description || 'Sin descripción adicional proporcionada por el vendedor.'}
             </p>
           </div>
         </div>
 
-        {/* Right Column: Price and Seller Contact */}
-        <div className="space-y-6">
-          <div className="bg-white rounded-2xl p-6 sm:p-8 border border-gray-100 shadow-sm">
-            <div className="text-3xl font-extrabold text-gray-900 mb-2">
-              ${Number(product.price).toLocaleString('es-AR')}
+        {/* Right Column (Price, Actions, Seller) */}
+        <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
+          
+          {/* Price & Contact Box */}
+          <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-sm">
+            <div className="flex items-baseline gap-1 text-slate-900 mb-2">
+              <span className="text-lg font-bold text-purple-600">$</span>
+              <span className="text-3xl sm:text-4xl font-black tracking-tight tabular-nums">
+                {Number(product.price).toLocaleString('es-AR')}
+              </span>
             </div>
-            <h1 className="text-xl font-semibold text-gray-800 mb-6 leading-snug">
+
+            <h1 className="text-base sm:text-lg font-bold text-slate-900 mb-4 leading-snug">
               {product.title}
             </h1>
-            
-            <div className="space-y-3 mb-8 text-sm">
-              <div className="flex items-center text-gray-600">
-                <MapPin size={18} className="mr-2 text-brand-500 flex-shrink-0" />
+
+            <div className="space-y-2 pb-6 border-b border-slate-100 text-xs text-slate-500 font-medium">
+              <div className="flex items-center gap-2">
+                <MapPin size={15} className="text-purple-600 shrink-0" />
                 <span>{product.location || 'Jáchal, San Juan'}</span>
               </div>
-              <div className="flex items-center text-gray-600">
-                <Clock size={18} className="mr-2 text-brand-500 flex-shrink-0" />
+              <div className="flex items-center gap-2">
+                <Clock size={15} className="text-purple-600 shrink-0" />
                 <span>
                   {product.createdAt ? new Date(product.createdAt).toLocaleDateString('es-AR', {
                     day: 'numeric',
@@ -162,63 +195,69 @@ export default function ProductDetail() {
               </div>
             </div>
 
-            {/* WhatsApp Contact Action */}
-            <a 
-              href={waUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full bg-[#25D366] hover:bg-[#1EBE5D] text-white font-semibold py-3.5 px-4 rounded-xl transition-all shadow-sm flex items-center justify-center space-x-2 text-base mb-3 cursor-pointer"
-            >
-              <MessageCircle size={22} />
-              <span>Contactar por WhatsApp</span>
-            </a>
+            {/* Action Buttons */}
+            <div className="pt-6 space-y-3">
+              <a 
+                href={waUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full bg-[#25D366] hover:bg-[#1EBE5D] text-white font-bold py-3.5 px-4 rounded-2xl transition-all shadow-md shadow-emerald-600/20 hover:shadow-lg hover:shadow-emerald-600/30 flex items-center justify-center gap-2 text-sm cursor-pointer"
+              >
+                <MessageCircle size={20} />
+                <span>Contactar por WhatsApp</span>
+              </a>
 
-            {/* Share Action */}
-            <button 
-              onClick={handleShare}
-              className="w-full bg-brand-50 text-brand-600 hover:bg-brand-100 font-semibold py-3 px-4 rounded-xl transition-colors flex justify-center items-center cursor-pointer"
-            >
-              {copied ? (
-                <>
-                  <Check size={18} className="mr-2 text-green-600" />
-                  <span className="text-green-600">¡Enlace copiado!</span>
-                </>
-              ) : (
-                <>
-                  <Share2 size={18} className="mr-2" />
-                  <span>Compartir publicación</span>
-                </>
+              {seller.phone && (
+                <a
+                  href={`tel:${seller.phone}`}
+                  className="w-full bg-slate-50 hover:bg-slate-100 text-slate-700 font-semibold py-2.5 px-4 rounded-xl transition-colors flex items-center justify-center gap-2 text-xs border border-slate-200/70"
+                >
+                  <PhoneCall size={15} />
+                  <span>Llamar al vendedor</span>
+                </a>
               )}
-            </button>
+
+              <button 
+                onClick={handleShare}
+                className="w-full bg-purple-50 hover:bg-purple-100 text-purple-700 font-semibold py-2.5 px-4 rounded-xl transition-colors flex items-center justify-center gap-2 text-xs cursor-pointer"
+              >
+                {copied ? (
+                  <>
+                    <Check size={16} className="text-emerald-600" />
+                    <span className="text-emerald-600 font-bold">¡Enlace copiado al portapapeles!</span>
+                  </>
+                ) : (
+                  <>
+                    <Share2 size={16} />
+                    <span>Compartir publicación</span>
+                  </>
+                )}
+              </button>
+            </div>
           </div>
 
           {/* Seller Card */}
-          <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-            <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">
-              Información del vendedor
+          <div className="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-xs">
+            <h3 className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-3">
+              Vendedor
             </h3>
-            <div className="flex items-center mb-4">
-              <div className="w-12 h-12 bg-brand-100 text-brand-600 rounded-full flex items-center justify-center font-bold text-xl mr-4 flex-shrink-0">
+            
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-11 h-11 bg-purple-100 text-purple-700 rounded-2xl flex items-center justify-center font-bold text-base shrink-0 ring-2 ring-purple-500/10">
                 {(seller.name || 'U').charAt(0).toUpperCase()}
               </div>
-              <div>
-                <p className="font-semibold text-gray-900">{seller.name}</p>
-                <p className="text-xs text-gray-500">{seller.location || 'Jáchal'}</p>
+              <div className="min-w-0">
+                <p className="text-xs font-bold text-slate-900 truncate">{seller.name}</p>
+                <p className="text-[11px] text-slate-500 truncate">{seller.location || 'Jáchal'}</p>
               </div>
             </div>
-            
-            {seller.isVerified ? (
-              <div className="flex items-center text-xs text-green-700 bg-green-50 p-3 rounded-xl">
-                <ShieldCheck size={18} className="text-green-600 mr-2 flex-shrink-0" />
-                <span>Identidad verificada en la comunidad</span>
-              </div>
-            ) : (
-              <div className="flex items-center text-xs text-gray-600 bg-gray-50 p-3 rounded-xl">
-                <ShieldCheck size={18} className="text-brand-500 mr-2 flex-shrink-0" />
-                <span>Vendedor verificado por número telefónico</span>
-              </div>
-            )}
+
+            <div className="flex items-center gap-2 text-[11px] text-emerald-800 bg-emerald-50 border border-emerald-100 p-2.5 rounded-xl font-medium">
+              <ShieldCheck size={16} className="text-emerald-600 shrink-0" />
+              <span>Vecino verificado de la comunidad</span>
+            </div>
           </div>
+
         </div>
 
       </div>
