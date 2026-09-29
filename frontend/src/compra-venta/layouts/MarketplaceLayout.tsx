@@ -5,9 +5,9 @@ import Navbar from '../components/Navbar'
 export default function MarketplaceLayout() {
   return (
     <AuthProvider>
-      <div className="min-h-screen bg-gray-50 flex flex-col font-sans text-gray-900">
+      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--color-bg)', color: 'var(--color-text)' }}>
         <Navbar />
-        <main className="flex-1">
+        <main style={{ flex: 1 }}>
           <Outlet />
         </main>
       </div>

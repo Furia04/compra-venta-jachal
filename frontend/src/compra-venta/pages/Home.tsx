@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, useNavigate } from 'react-router-dom'
 import ProductCard from '../components/ProductCard'
 import { marketplaceApi, FALLBACK_PRODUCTS } from '../services/marketplaceApi'
 import type { Product } from '../types/product'
@@ -9,26 +9,20 @@ import {
   Smartphone, 
   Sofa, 
   Bike, 
-  Package, 
-  Loader2, 
-  Search, 
-  ShieldCheck, 
-  MessageSquare, 
-  Tag,
-  ArrowRight
+  Loader2
 } from 'lucide-react'
 
 const CATEGORIES = [
-  { id: '', name: 'Todos los artículos', icon: Package },
-  { id: 'vehiculos', name: 'Vehículos & Autos', icon: Car },
-  { id: 'inmuebles', name: 'Inmuebles & Terrenos', icon: HomeIcon },
-  { id: 'tecnologia', name: 'Tecnología & Celulares', icon: Smartphone },
-  { id: 'hogar', name: 'Hogar & Muebles', icon: Sofa },
-  { id: 'deportes', name: 'Deportes & Bicicletas', icon: Bike },
+  { id: 'vehiculos', name: 'Vehículos', icon: Car },
+  { id: 'inmuebles', name: 'Inmuebles', icon: HomeIcon },
+  { id: 'tecnologia', name: 'Tecnología', icon: Smartphone },
+  { id: 'hogar', name: 'Hogar', icon: Sofa },
+  { id: 'deportes', name: 'Deportes', icon: Bike },
 ]
 
 export default function MarketplaceHome() {
   const [searchParams, setSearchParams] = useSearchParams()
+  const navigate = useNavigate()
   const categoryParam = searchParams.get('categoria') || ''
   const searchParam = searchParams.get('search') || ''
 
@@ -36,7 +30,6 @@ export default function MarketplaceHome() {
   const [selectedCategory, setSelectedCategory] = useState(categoryParam)
   const [searchInput, setSearchInput] = useState(searchParam)
   const [loading, setLoading] = useState(true)
-  const [usingFallback, setUsingFallback] = useState(false)
 
   const currentCategory = categoryParam !== '' ? categoryParam : selectedCategory
 
@@ -50,15 +43,11 @@ export default function MarketplaceHome() {
         })
         if (Array.isArray(data) && data.length > 0) {
           setProducts(data)
-          setUsingFallback(false)
         } else {
           setProducts(FALLBACK_PRODUCTS)
-          setUsingFallback(true)
         }
       } catch (err) {
-        console.warn('API no disponible, usando publicaciones de demostración:', err)
         setProducts(FALLBACK_PRODUCTS)
-        setUsingFallback(true)
       } finally {
         setLoading(false)
       }
@@ -90,194 +79,169 @@ export default function MarketplaceHome() {
   }
 
   return (
-    <div className="min-h-screen pb-16">
-      
-      {/* Hero Banner */}
-      <section className="relative overflow-hidden bg-slate-50 border-b border-slate-200 pt-12 pb-16 sm:pb-20 px-4 sm:px-6 lg:px-8">
-        <div className="absolute inset-0 opacity-40 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
-        
-        <div className="max-w-5xl mx-auto text-center relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white text-brand-700 text-xs font-semibold mb-4 border border-slate-200 shadow-sm">
-            <Tag size={12} className="text-brand-500" />
-            <span>Compra y venta directa en Jáchal</span>
-          </div>
+    <div>
+      {/* Hero identical to OficiosYa */}
+      <section style={{ padding: '2rem 1.5rem', textAlign: 'center', backgroundColor: 'var(--color-bg-secondary)' }}>
+        <h1 style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--color-primary)', marginBottom: '1rem', lineHeight: 1.3 }}>
+          El mercado de la comunidad de Jáchal
+        </h1>
+        <p style={{ fontSize: '1rem', color: 'var(--color-text-secondary)', maxWidth: '40ch', margin: '0 auto' }}>
+          Encontrá autos, herramientas, muebles y tecnología. Trato directo y sin intermediarios.
+        </p>
+      </section>
 
-          <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-slate-900 mb-4 text-balance">
-            El mercado de la comunidad de <span className="text-brand-700">Jáchal</span>
-          </h1>
-          
-          <p className="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto mb-8 text-pretty">
-            Encontrá autos, motos, herramientas, muebles y tecnología de vecinos de la zona. Trato directo y sin intermediarios.
-          </p>
+      {/* Search Bar identical to OficiosYa */}
+      <form 
+        onSubmit={handleSearchSubmit} 
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '0.5rem',
+          maxWidth: '500px',
+          margin: '2rem auto',
+          padding: '0 1.5rem'
+        }}
+      >
+        <input
+          type="text"
+          placeholder="¿Qué estás buscando? Ej: Bicicleta, Celular..."
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+          style={{
+            padding: '1rem',
+            fontSize: '1rem',
+            border: '1px solid var(--color-border)',
+            borderRadius: '8px',
+            backgroundColor: 'var(--color-surface)',
+            color: 'var(--color-text)',
+            width: '100%'
+          }}
+        />
+        <button 
+          type="submit"
+          style={{
+            padding: '1rem',
+            backgroundColor: 'var(--color-primary)',
+            color: '#ffffff',
+            border: 'none',
+            borderRadius: '8px',
+            fontSize: '1rem',
+            fontWeight: 600,
+            width: '100%',
+            cursor: 'pointer'
+          }}
+        >
+          Buscar artículo
+        </button>
+      </form>
 
-          {/* Large Hero Search Box */}
-          <form 
-            onSubmit={handleSearchSubmit}
-            className="max-w-2xl mx-auto bg-white p-1.5 sm:p-2 rounded-2xl shadow-lg shadow-slate-200/50 border border-slate-200 flex items-center gap-2"
-          >
-            <div className="flex-1 flex items-center pl-3 text-slate-400">
-              <Search size={18} className="text-slate-400 shrink-0 mr-2" />
-              <input
-                type="text"
-                value={searchInput}
-                onChange={(e) => setSearchInput(e.target.value)}
-                placeholder="¿Qué estás buscando hoy en Jáchal? (ej: Gol 2018, Bicicleta...)"
-                className="w-full bg-transparent text-slate-800 placeholder:text-slate-400 text-xs sm:text-sm focus:outline-none"
-              />
-            </div>
-            <button
-              type="submit"
-              className="bg-brand-600 hover:bg-brand-700 text-white font-semibold px-4 sm:px-6 py-2.5 rounded-xl text-xs sm:text-sm transition-colors shrink-0 shadow-sm cursor-pointer"
-            >
-              Buscar
-            </button>
-          </form>
-
-          {/* Trust Badges */}
-          <div className="mt-8 flex flex-wrap justify-center items-center gap-4 sm:gap-8 text-xs text-slate-500 font-medium">
-            <div className="flex items-center gap-1.5">
-              <ShieldCheck size={14} className="text-emerald-600" />
-              <span>Publicaciones 100% locales</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <MessageSquare size={14} className="text-emerald-600" />
-              <span>Contacto directo por WhatsApp</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <Tag size={14} className="text-emerald-600" />
-              <span>Sin comisiones ni costos</span>
-            </div>
-          </div>
+      {/* Categories identical to CategoryList */}
+      <section style={{ padding: '2rem 1.5rem' }}>
+        <h2 style={{ fontSize: '1.5rem', color: 'var(--color-text)', marginBottom: '1.5rem', textAlign: 'center' }}>
+          Explorar Categorías
+        </h2>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+          gap: '1rem',
+          maxWidth: '900px',
+          margin: '0 auto'
+        }}>
+          {CATEGORIES.map((category) => {
+            const Icon = category.icon
+            const isSelected = currentCategory === category.id
+            return (
+              <button
+                key={category.id}
+                onClick={() => handleCategoryClick(category.id === currentCategory ? '' : category.id)}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.25rem',
+                  padding: '1rem',
+                  backgroundColor: 'var(--color-surface)',
+                  border: `1px solid ${isSelected ? 'var(--color-primary)' : 'var(--color-border)'}`,
+                  borderRadius: '8px',
+                  textAlign: 'center',
+                  minHeight: '100px',
+                  cursor: 'pointer',
+                  color: 'var(--color-text)'
+                }}
+              >
+                <div style={{ fontSize: '1.75rem', marginBottom: '0.5rem', color: isSelected ? 'var(--color-primary)' : 'inherit' }}>
+                  <Icon size={28} />
+                </div>
+                <span style={{ fontSize: '0.85rem', fontWeight: 500 }}>
+                  {category.name}
+                </span>
+              </button>
+            )
+          })}
         </div>
       </section>
 
-      {/* Main Content Area */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 relative z-20">
-        
-        {/* Categories Carousel / Grid */}
-        <section className="bg-white rounded-2xl p-4 sm:p-6 border border-slate-200/80 shadow-sm mb-10">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider">
-              Explorar por Categoría
-            </h2>
-            {currentCategory && (
-              <button
-                onClick={() => handleCategoryClick('')}
-                className="text-xs font-semibold text-brand-600 hover:text-brand-700 cursor-pointer"
-              >
-                Limpiar filtro
-              </button>
-            )}
+      {/* Products */}
+      <section style={{ padding: '2rem 1.5rem', maxWidth: '1200px', margin: '0 auto' }}>
+        <h2 style={{ fontSize: '1.5rem', color: 'var(--color-text)', marginBottom: '1.5rem' }}>
+          {searchParam
+            ? `Resultados para "${searchParam}"`
+            : currentCategory 
+              ? `${CATEGORIES.find(c => c.id === currentCategory)?.name}` 
+              : 'Publicaciones Recientes'}
+        </h2>
+
+        {loading ? (
+          <div style={{ textAlign: 'center', padding: '4rem' }}>
+            <Loader2 size={32} style={{ animation: 'spin 1s linear infinite', margin: '0 auto', color: 'var(--color-primary)' }} />
           </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5 sm:gap-3">
-            {CATEGORIES.map((category) => {
-              const Icon = category.icon
-              const isSelected = (currentCategory === '' && category.id === '') || currentCategory === category.id
-              return (
-                <button 
-                  key={category.id || 'all'}
-                  onClick={() => handleCategoryClick(category.id)}
-                  className={`flex flex-col items-center justify-center p-3.5 sm:p-4 rounded-xl transition-all cursor-pointer text-center group border ${
-                    isSelected 
-                      ? 'bg-brand-50 text-brand-900 border-brand-300 ring-2 ring-brand-500/20 shadow-xs' 
-                      : 'bg-slate-50/70 hover:bg-slate-100 text-slate-700 border-slate-200/70 hover:border-slate-300'
-                  }`}
-                >
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-2 transition-all ${
-                    isSelected 
-                      ? 'bg-brand-600 text-white shadow-xs' 
-                      : 'bg-white text-slate-600 border border-slate-200/60 group-hover:text-brand-600 group-hover:border-brand-200'
-                  }`}>
-                    <Icon size={18} />
-                  </div>
-                  <span className={`text-xs font-bold leading-tight ${isSelected ? 'text-brand-950' : 'group-hover:text-slate-900'}`}>
-                    {category.name}
-                  </span>
-                </button>
-              )
-            })}
+        ) : products.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '4rem', color: 'var(--color-text-secondary)' }}>
+            No hay publicaciones con estos filtros.
           </div>
-        </section>
-
-        {/* Listings Section */}
-        <section>
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
-            <div className="flex items-center gap-3">
-              <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-                {searchParam
-                  ? `Resultados para "${searchParam}"`
-                  : currentCategory 
-                    ? `${CATEGORIES.find(c => c.id === currentCategory)?.name}` 
-                    : 'Publicaciones Recientes'}
-              </h2>
-              {usingFallback && (
-                <span className="text-[11px] font-semibold bg-amber-50 text-amber-800 border border-amber-200 px-2.5 py-0.5 rounded-full">
-                  Demostración
-                </span>
-              )}
-            </div>
-
-            <div className="text-xs text-slate-500 font-medium">
-              Mostrando <span className="font-bold text-slate-800">{products.length}</span> artículos en Jáchal
-            </div>
+        ) : (
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
+            gap: '1.5rem'
+          }}>
+            {products.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))}
           </div>
+        )}
+      </section>
 
-          {loading ? (
-            <div className="flex flex-col items-center justify-center py-24 bg-white rounded-3xl border border-slate-200/80">
-              <Loader2 className="animate-spin text-brand-600 mb-3" size={32} />
-              <p className="text-xs font-semibold text-slate-500">Cargando publicaciones...</p>
-            </div>
-          ) : products.length === 0 ? (
-            <div className="text-center py-20 bg-white rounded-3xl border border-slate-200/80 p-8 shadow-xs">
-              <div className="w-14 h-14 bg-brand-50 text-brand-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <Package size={28} />
-              </div>
-              <h3 className="text-base font-bold text-slate-900 mb-1">No hay publicaciones con estos filtros</h3>
-              <p className="text-xs text-slate-500 max-w-sm mx-auto mb-6">
-                Probá buscando con otras palabras o limpiando la categoría seleccionada.
-              </p>
-              <button 
-                onClick={() => {
-                  setSelectedCategory('')
-                  setSearchInput('')
-                  setSearchParams({})
-                }}
-                className="bg-brand-600 text-white px-5 py-2.5 rounded-xl text-xs font-semibold hover:bg-brand-700 transition-colors shadow-xs cursor-pointer"
-              >
-                Ver todos los productos
-              </button>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-              {products.map((product) => (
-                <ProductCard key={product._id} product={product} />
-              ))}
-            </div>
-          )}
-        </section>
-
-        {/* Bottom CTA Banner */}
-        <section className="mt-16 bg-brand-700 rounded-3xl p-6 sm:p-10 text-white shadow-xl shadow-brand-900/5 flex flex-col md:flex-row items-center justify-between gap-6 border border-brand-800">
-          <div>
-            <h3 className="text-xl sm:text-2xl font-black mb-2 tracking-tight">
-              ¿Tenés algo para vender en Jáchal?
-            </h3>
-            <p className="text-xs sm:text-sm text-brand-100 max-w-xl">
-              Publicá tu auto, moto, terreno, teléfono o herramientas en minutos. Es gratis y conectás directo por WhatsApp con compradores locales.
-            </p>
-          </div>
-          <button 
-            onClick={() => window.location.href = '/mercado/publicar'}
-            className="shrink-0 bg-white text-brand-900 hover:bg-slate-50 font-bold px-6 py-3 rounded-xl transition-all shadow-md flex items-center gap-2 text-sm cursor-pointer"
-          >
-            <span>Publicar artículo gratis</span>
-            <ArrowRight size={16} />
-          </button>
-        </section>
-
-      </div>
-
+      {/* Call to Action identical to WorkerCallToAction */}
+      <section style={{
+        backgroundColor: 'var(--color-bg-secondary)',
+        padding: '3rem 1.5rem',
+        textAlign: 'center',
+        marginTop: '2rem'
+      }}>
+        <h2 style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--color-primary)', marginBottom: '1rem' }}>
+          ¿Tenés algo para vender en Jáchal?
+        </h2>
+        <p style={{ color: 'var(--color-text-secondary)', marginBottom: '2rem', maxWidth: '500px', margin: '0 auto 2rem' }}>
+          Publicá tu auto, terreno, teléfono o herramientas en minutos. Es gratis y conectás directo por WhatsApp.
+        </p>
+        <button
+          onClick={() => navigate('/mercado/publicar')}
+          style={{
+            padding: '1rem 2rem',
+            backgroundColor: 'var(--color-primary)',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '8px',
+            fontSize: '1rem',
+            fontWeight: 600,
+            cursor: 'pointer'
+          }}
+        >
+          Publicar artículo gratis
+        </button>
+      </section>
     </div>
   )
 }
