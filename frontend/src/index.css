@@ -1,11 +1,11 @@
-* {
-  margin: 0;
-  padding: 2;
-  box-sizing: border-box;
-}
+@import "tailwindcss";
 
-body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  color: #1a1a1a;
-  background-color: #ffffff;
+@theme {
+  --color-brand-50: #faf5ff;
+  --color-brand-100: #f3e8ff;
+  --color-brand-400: #95009c;
+  --color-brand-500: #62009c;
+  --color-brand-600: #30009c;
+  --color-brand-700: #00039c;
+  --color-accent-500: #9c0049;
 }
