@@ -37,3 +37,5 @@ Thumbs.db
 temp_frontend/
 temp_backend/
 .superpowers/
+
+.vercel
