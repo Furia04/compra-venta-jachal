@@ -1,0 +1,22 @@
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: #ffffff;
+}
+
+.premium {
+  background-color: var(--color-premium);
+}
+
+.featured {
+  background-color: var(--color-accent);
+}
+
+.golden {
+  background-color: var(--color-golden);
+  color: #3a2e00;
+}

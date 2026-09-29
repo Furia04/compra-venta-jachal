@@ -1,0 +1,58 @@
+import type { Rating } from '../types/rating'
+
+export const mockRatings: Rating[] = [
+  {
+    id: 'rating-01',
+    workerId: 'worker-01',
+    clientId: 'user-01',
+    clientName: 'Pablo Ramírez',
+    score: 5,
+    comment: 'Excelente trabajo, muy prolijo y puntual.',
+    createdAt: '2026-06-10T14:30:00Z',
+  },
+  {
+    id: 'rating-02',
+    workerId: 'worker-01',
+    clientId: 'user-05',
+    clientName: 'Sofía López',
+    score: 5,
+    comment: 'Recomendado 100%.',
+    createdAt: '2026-07-02T09:15:00Z',
+  },
+  {
+    id: 'rating-03',
+    workerId: 'worker-01',
+    clientId: 'user-03',
+    clientName: 'María F.',
+    score: 4,
+    comment: 'Buen trabajo, tardó un poco más de lo esperado.',
+    createdAt: '2026-07-20T18:00:00Z',
+  },
+  {
+    id: 'rating-04',
+    workerId: 'worker-04',
+    clientId: 'user-01',
+    clientName: 'Pablo Ramírez',
+    score: 4,
+    comment: '',
+    createdAt: '2026-08-01T11:00:00Z',
+  },
+  {
+    id: 'rating-05',
+    workerId: 'worker-04',
+    clientId: 'user-05',
+    clientName: 'Sofía López',
+    score: 3,
+    comment: 'Cumplió, aunque llegó tarde.',
+    createdAt: '2026-08-05T16:45:00Z',
+  },
+  {
+    id: 'rating-06',
+    workerId: 'worker-06',
+    clientId: 'user-01',
+    clientName: 'Pablo Ramírez',
+    score: 3,
+    comment: 'Solucionó el problema pero tardó en responder.',
+    createdAt: '2026-08-10T10:00:00Z',
+  },
+]
