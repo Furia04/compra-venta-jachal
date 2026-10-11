@@ -1,6 +1,8 @@
+import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { mockCategories } from '../data/mockCategories'
-import { mockWorkers } from '../data/mockWorkers'
+import { getProviders } from '../services/providersService'
+import type { Worker } from '../types/worker'
 import { getTopWorkers } from '../utils/ranking'
 import WorkerCard from '../components/WorkerCard/WorkerCard'
 import NotFound from './NotFound'
@@ -8,13 +10,31 @@ import styles from './CategoryPage.module.css'
 
 function CategoryPage() {
   const { id } = useParams<{ id: string }>()
-  const category = mockCategories.find((c) => c.id === id)
+  const [workers, setWorkers] = useState<Worker[]>([])
+  const [loading, setLoading] = useState(true)
+
+  const category = mockCategories.find((c) => c.id === id || c.slug === id)
+
+  useEffect(() => {
+    async function load() {
+      setLoading(true)
+      try {
+        const data = await getProviders()
+        setWorkers(data)
+      } catch (err) {
+        console.error('Error loading workers:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+    load()
+  }, [])
 
   if (!category) {
     return <NotFound />
   }
 
-  const matchingWorkers = mockWorkers.filter((worker) =>
+  const matchingWorkers = workers.filter((worker) =>
     worker.categoryIds.includes(category.id)
   )
   const rankedResults = getTopWorkers(matchingWorkers, matchingWorkers.length)
@@ -28,9 +48,13 @@ function CategoryPage() {
         <h1 className={styles.title}>{category.name}</h1>
       </div>
 
-      {rankedResults.length === 0 ? (
+      {loading ? (
+        <p style={{ textAlign: 'center', padding: '2rem', color: 'var(--color-text-secondary)' }}>
+          Cargando profesionales...
+        </p>
+      ) : rankedResults.length === 0 ? (
         <p className={styles.emptyState}>
-          No encontramos trabajadores para los filtros seleccionados.
+          No encontramos trabajadores registrados para esta categoría todavía.
         </p>
       ) : (
         <div className={styles.grid}>

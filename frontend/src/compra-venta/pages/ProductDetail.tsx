@@ -16,12 +16,17 @@ import {
   Sparkles
 } from 'lucide-react'
 
+import { useFavorites } from '../../context/FavoritesContext'
+import { useToast } from '../../context/ToastContext'
+
 export default function ProductDetail() {
   const { id } = useParams<{ id: string }>()
   const [product, setProduct] = useState<Product | null>(null)
   const [loading, setLoading] = useState(true)
   const [copied, setCopied] = useState(false)
-  const [isLiked, setIsLiked] = useState(false)
+
+  const { isProductFavorite, toggleProductFavorite } = useFavorites()
+  const { showSuccess } = useToast()
 
   useEffect(() => {
     async function fetchProduct() {
@@ -100,91 +105,143 @@ export default function ProductDetail() {
     } else {
       navigator.clipboard.writeText(window.location.href)
       setCopied(true)
+      showSuccess('¡Enlace de la publicación copiado al portapapeles!')
       setTimeout(() => setCopied(false), 2500)
     }
   }
 
+  const isFav = isProductFavorite(product._id || product.id || '')
+
   const mainImage = product.images?.[0]?.url || product.image || 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&q=80&w=800'
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '1.5rem 1rem' }}>
       
       {/* Breadcrumb Navigation */}
-      <div className="flex items-center gap-2 text-xs font-medium text-slate-500 mb-6">
-        <Link to="/mercado" className="inline-flex items-center gap-1 hover:text-brand-700 transition-colors">
-          <ArrowLeft size={14} />
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', color: 'var(--color-text-secondary)', marginBottom: '1.5rem' }}>
+        <Link to="/mercado" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem', color: 'var(--color-primary)', fontWeight: 600 }}>
+          <ArrowLeft size={16} />
           <span>Volver a Jáchal Vende</span>
         </Link>
-        <span className="text-slate-300">/</span>
-        <span className="capitalize text-slate-700">{product.category || 'Artículos'}</span>
-        <span className="text-slate-300">/</span>
-        <span className="truncate max-w-[200px] text-slate-400">{product.title}</span>
+        <span>/</span>
+        <span style={{ textTransform: 'capitalize', color: 'var(--color-text)' }}>{product.category || 'Artículos'}</span>
+        <span>/</span>
+        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '240px' }}>{product.title}</span>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+        gap: '2rem',
+        alignItems: 'start'
+      }}>
         
         {/* Left Column (Images + Description) */}
-        <div className="lg:col-span-8 space-y-6">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           
           {/* Main Product Image Card */}
-          <div className="bg-white rounded-3xl overflow-hidden border border-slate-200/80 shadow-[0_2px_8px_-2px_rgba(0,0,0,0.06)] relative group">
-            <div className="aspect-[16/10] sm:aspect-[16/9] w-full bg-slate-100 flex items-center justify-center overflow-hidden">
+          <div style={{
+            backgroundColor: 'var(--color-surface)',
+            borderRadius: 'var(--radius-lg)',
+            overflow: 'hidden',
+            border: '1px solid var(--color-border)',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+            position: 'relative'
+          }}>
+            <div style={{
+              width: '100%',
+              maxHeight: '440px',
+              backgroundColor: 'var(--color-bg-secondary)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              overflow: 'hidden'
+            }}>
               <img 
                 src={mainImage} 
                 alt={product.title} 
-                className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300 ease-out"
+                style={{
+                  width: '100%',
+                  maxHeight: '440px',
+                  objectFit: 'contain',
+                  backgroundColor: '#0f172a'
+                }}
               />
             </div>
 
             {/* Favorite Floating Button */}
             <button 
-              onClick={() => setIsLiked(!isLiked)}
+              onClick={() => toggleProductFavorite(product)}
               aria-label="Guardar en favoritos"
-              className={`absolute top-4 right-4 p-3 rounded-2xl backdrop-blur-md transition-all shadow-md cursor-pointer ${
-                isLiked 
-                  ? 'bg-rose-500 text-white scale-105' 
-                  : 'bg-white/90 text-slate-600 hover:text-rose-500 hover:bg-white'
-              }`}
+              title={isFav ? 'Quitar de favoritos' : 'Guardar en favoritos'}
+              style={{
+                position: 'absolute',
+                top: '1rem',
+                right: '1rem',
+                padding: '0.65rem',
+                borderRadius: '50%',
+                backgroundColor: isFav ? '#e11d48' : 'rgba(255, 255, 255, 0.95)',
+                color: isFav ? '#ffffff' : '#64748b',
+                border: 'none',
+                boxShadow: '0 4px 10px rgba(0,0,0,0.15)',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'transform 0.2s'
+              }}
             >
-              <Heart size={20} className={isLiked ? 'fill-current' : ''} />
+              <Heart size={20} className={isFav ? 'fill-current' : ''} />
             </button>
           </div>
 
           {/* Description Card */}
-          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs">
-            <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
-              <Sparkles size={18} className="text-brand-600" />
+          <div style={{
+            backgroundColor: 'var(--color-surface)',
+            borderRadius: 'var(--radius-lg)',
+            padding: '1.5rem',
+            border: '1px solid var(--color-border)',
+            boxShadow: '0 2px 6px rgba(0,0,0,0.04)'
+          }}>
+            <h2 style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--color-text)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Sparkles size={18} style={{ color: 'var(--color-primary)' }} />
               Descripción del artículo
             </h2>
-            <p className="text-sm text-slate-600 leading-relaxed whitespace-pre-line text-pretty">
+            <p style={{ fontSize: '0.95rem', color: 'var(--color-text)', lineHeight: 1.6, whiteSpace: 'pre-line', margin: 0 }}>
               {product.description || 'Sin descripción adicional proporcionada por el vendedor.'}
             </p>
           </div>
         </div>
 
         {/* Right Column (Price, Actions, Seller) */}
-        <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           
           {/* Price & Contact Box */}
-          <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-sm">
-            <div className="flex items-baseline gap-1 text-slate-900 mb-2">
-              <span className="text-lg font-bold text-brand-600">$</span>
-              <span className="text-3xl sm:text-4xl font-black tracking-tight tabular-nums">
+          <div style={{
+            backgroundColor: 'var(--color-surface)',
+            borderRadius: 'var(--radius-lg)',
+            padding: '1.75rem',
+            border: '1px solid var(--color-border)',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.25rem', marginBottom: '0.5rem' }}>
+              <span style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--color-primary)' }}>$</span>
+              <span style={{ fontSize: '2.25rem', fontWeight: 900, color: 'var(--color-text)', letterSpacing: '-0.5px' }}>
                 {Number(product.price).toLocaleString('es-AR')}
               </span>
             </div>
 
-            <h1 className="text-base sm:text-lg font-bold text-slate-900 mb-4 leading-snug">
+            <h1 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--color-text)', marginBottom: '1.25rem', lineHeight: 1.4 }}>
               {product.title}
             </h1>
 
-            <div className="space-y-2 pb-6 border-b border-slate-100 text-xs text-slate-500 font-medium">
-              <div className="flex items-center gap-2">
-                <MapPin size={15} className="text-brand-600 shrink-0" />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', paddingBottom: '1.25rem', borderBottom: '1px solid var(--color-border)', fontSize: '0.85rem', color: 'var(--color-text-secondary)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <MapPin size={16} style={{ color: 'var(--color-primary)', flexShrink: 0 }} />
                 <span>{product.location || 'Jáchal, San Juan'}</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Clock size={15} className="text-brand-600 shrink-0" />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <Clock size={16} style={{ color: 'var(--color-primary)', flexShrink: 0 }} />
                 <span>
                   {product.createdAt ? new Date(product.createdAt).toLocaleDateString('es-AR', {
                     day: 'numeric',
@@ -196,12 +253,27 @@ export default function ProductDetail() {
             </div>
 
             {/* Action Buttons */}
-            <div className="pt-6 space-y-3">
+            <div style={{ paddingTop: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               <a 
                 href={waUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full bg-[#25D366] hover:bg-[#1EBE5D] text-white font-bold py-3.5 px-4 rounded-2xl transition-all shadow-md shadow-emerald-600/20 hover:shadow-lg hover:shadow-emerald-600/30 flex items-center justify-center gap-2 text-sm cursor-pointer"
+                style={{
+                  width: '100%',
+                  backgroundColor: '#25D366',
+                  color: '#ffffff',
+                  fontWeight: 700,
+                  padding: '0.85rem 1rem',
+                  borderRadius: 'var(--radius-md)',
+                  textDecoration: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.5rem',
+                  fontSize: '0.95rem',
+                  boxShadow: '0 2px 6px rgba(37, 211, 102, 0.25)',
+                  boxSizing: 'border-box'
+                }}
               >
                 <MessageCircle size={20} />
                 <span>Contactar por WhatsApp</span>
@@ -210,21 +282,51 @@ export default function ProductDetail() {
               {seller.phone && (
                 <a
                   href={`tel:${seller.phone}`}
-                  className="w-full bg-slate-50 hover:bg-slate-100 text-slate-700 font-semibold py-2.5 px-4 rounded-xl transition-colors flex items-center justify-center gap-2 text-xs border border-slate-200/70"
+                  style={{
+                    width: '100%',
+                    backgroundColor: 'var(--color-bg-secondary)',
+                    color: 'var(--color-text)',
+                    fontWeight: 600,
+                    padding: '0.75rem 1rem',
+                    borderRadius: 'var(--radius-md)',
+                    textDecoration: 'none',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.5rem',
+                    fontSize: '0.85rem',
+                    border: '1px solid var(--color-border)',
+                    boxSizing: 'border-box'
+                  }}
                 >
-                  <PhoneCall size={15} />
+                  <PhoneCall size={16} />
                   <span>Llamar al vendedor</span>
                 </a>
               )}
 
               <button 
                 onClick={handleShare}
-                className="w-full bg-brand-50 hover:bg-brand-100 text-brand-700 font-semibold py-2.5 px-4 rounded-xl transition-colors flex items-center justify-center gap-2 text-xs cursor-pointer"
+                style={{
+                  width: '100%',
+                  backgroundColor: 'rgba(27, 73, 101, 0.08)',
+                  color: 'var(--color-primary)',
+                  fontWeight: 600,
+                  padding: '0.75rem 1rem',
+                  borderRadius: 'var(--radius-md)',
+                  border: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.5rem',
+                  fontSize: '0.85rem',
+                  cursor: 'pointer',
+                  boxSizing: 'border-box'
+                }}
               >
                 {copied ? (
                   <>
-                    <Check size={16} className="text-emerald-600" />
-                    <span className="text-emerald-600 font-bold">¡Enlace copiado al portapapeles!</span>
+                    <Check size={16} style={{ color: '#059669' }} />
+                    <span style={{ color: '#059669', fontWeight: 700 }}>¡Enlace copiado al portapapeles!</span>
                   </>
                 ) : (
                   <>
@@ -237,23 +339,56 @@ export default function ProductDetail() {
           </div>
 
           {/* Seller Card */}
-          <div className="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-xs">
-            <h3 className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-3">
+          <div style={{
+            backgroundColor: 'var(--color-surface)',
+            borderRadius: 'var(--radius-lg)',
+            padding: '1.25rem',
+            border: '1px solid var(--color-border)',
+            boxShadow: '0 2px 6px rgba(0,0,0,0.04)'
+          }}>
+            <h3 style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>
               Vendedor
             </h3>
             
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-11 h-11 bg-brand-100 text-brand-700 rounded-2xl flex items-center justify-center font-bold text-base shrink-0 ring-2 ring-brand-500/10">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem' }}>
+              <div style={{
+                width: '44px',
+                height: '44px',
+                backgroundColor: 'rgba(27, 73, 101, 0.1)',
+                color: 'var(--color-primary)',
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontWeight: 700,
+                fontSize: '1.1rem',
+                flexShrink: 0
+              }}>
                 {(seller.name || 'U').charAt(0).toUpperCase()}
               </div>
-              <div className="min-w-0">
-                <p className="text-xs font-bold text-slate-900 truncate">{seller.name}</p>
-                <p className="text-[11px] text-slate-500 truncate">{seller.location || 'Jáchal'}</p>
+              <div style={{ minWidth: 0 }}>
+                <p style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--color-text)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {seller.name}
+                </p>
+                <p style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {seller.location || 'Jáchal'}
+                </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 text-[11px] text-emerald-800 bg-emerald-50 border border-emerald-100 p-2.5 rounded-xl font-medium">
-              <ShieldCheck size={16} className="text-emerald-600 shrink-0" />
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              fontSize: '0.8rem',
+              color: '#065f46',
+              backgroundColor: '#ecfdf5',
+              border: '1px solid #a7f3d0',
+              padding: '0.65rem 0.75rem',
+              borderRadius: 'var(--radius-sm)',
+              fontWeight: 600
+            }}>
+              <ShieldCheck size={18} style={{ color: '#059669', flexShrink: 0 }} />
               <span>Vecino verificado de la comunidad</span>
             </div>
           </div>

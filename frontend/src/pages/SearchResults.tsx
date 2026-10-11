@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { mockWorkers } from '../data/mockWorkers'
+import { getProviders } from '../services/providersService'
+import type { Worker } from '../types/worker'
 import { mockCategories } from '../data/mockCategories'
 import { normalizeText } from '../utils/normalizeText'
 import { getTopWorkers } from '../utils/ranking'
@@ -12,7 +13,6 @@ const INITIAL_FILTERS: Filters = {
   categoryId: '',
   zone: '',
   minRating: 0,
-  
 }
 
 function SearchResults() {
@@ -20,12 +20,29 @@ function SearchResults() {
   const query = searchParams.get('q') ?? ''
   const normalizedQuery = normalizeText(query)
   const [filters, setFilters] = useState<Filters>(INITIAL_FILTERS)
+  const [workers, setWorkers] = useState<Worker[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function load() {
+      setLoading(true)
+      try {
+        const data = await getProviders()
+        setWorkers(data)
+      } catch (err) {
+        console.error('Error loading providers:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+    load()
+  }, [])
 
   const matchingCategoryIds = mockCategories
     .filter((category) => normalizeText(category.name).includes(normalizedQuery))
     .map((category) => category.id)
 
-  const searchFilteredWorkers = mockWorkers.filter((worker) => {
+  const searchFilteredWorkers = workers.filter((worker) => {
     if (normalizedQuery === '') return true
     const fullName = normalizeText(`${worker.firstName} ${worker.lastName}`)
     const matchesName = fullName.includes(normalizedQuery)
@@ -70,15 +87,19 @@ function SearchResults() {
             Resultados para: <span className={styles.query}>"{query}"</span>
           </>
         ) : (
-          'Todos los trabajadores'
+          'Todos los profesionales'
         )}
       </h1>
 
       <FilterPanel filters={filters} onChange={handleFiltersChange} />
 
-      {rankedResults.length === 0 ? (
+      {loading ? (
+        <p style={{ textAlign: 'center', padding: '2rem', color: 'var(--color-text-secondary)' }}>
+          Cargando profesionales...
+        </p>
+      ) : rankedResults.length === 0 ? (
         <p className={styles.emptyState}>
-          No encontramos trabajadores para los filtros seleccionados.
+          No encontramos profesionales para los filtros seleccionados.
         </p>
       ) : (
         <div className={styles.grid}>

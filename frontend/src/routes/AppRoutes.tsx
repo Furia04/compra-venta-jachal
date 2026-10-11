@@ -5,6 +5,10 @@ import SearchResults from '../pages/SearchResults'
 import CategoryPage from '../pages/CategoryPage'
 import NotFound from '../pages/NotFound'
 
+import WorkerDetail from '../pages/WorkerDetail'
+import WorkerRegister from '../pages/WorkerRegister'
+import FavoritesPage from '../pages/FavoritesPage'
+
 // Módulo Compra y Venta (Marketplace Jáchal Vende)
 import MarketplaceLayout from '../compra-venta/layouts/MarketplaceLayout'
 import MarketplaceHome from '../compra-venta/pages/Home'
@@ -23,6 +27,10 @@ function AppRoutes() {
         <Route path="/oficios" element={<Home />} />
         <Route path="/buscar" element={<SearchResults />} />
         <Route path="/categoria/:id" element={<CategoryPage />} />
+        <Route path="/trabajador/:id" element={<WorkerDetail />} />
+        <Route path="/prestador/:id" element={<WorkerDetail />} />
+        <Route path="/registro-trabajador" element={<WorkerRegister />} />
+        <Route path="/favoritos" element={<FavoritesPage />} />
       </Route>
 
       {/* Portal 2: Compra & Venta (Marketplace Jáchal Vende) */}

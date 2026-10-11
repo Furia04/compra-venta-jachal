@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { ShoppingBag, Wrench, UserCircle, LogOut } from 'lucide-react'
+import { useFavorites } from '../../context/FavoritesContext'
+import { ShoppingBag, Wrench, UserCircle, LogOut, Heart } from 'lucide-react'
 
 export default function Navbar() {
   const { user, isAuthenticated, logout } = useAuth()
+  const { totalFavoritesCount } = useFavorites()
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const navigate = useNavigate()
 
@@ -81,6 +83,39 @@ export default function Navbar() {
 
       {/* Right side: Actions */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-md)' }}>
+        <Link
+          to="/favoritos"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.4rem',
+            padding: 'var(--spacing-xs) var(--spacing-sm)',
+            borderRadius: 'var(--radius-sm)',
+            textDecoration: 'none',
+            color: 'var(--color-text)',
+            fontSize: '0.9rem',
+            fontWeight: 500,
+            position: 'relative'
+          }}
+          title="Ver favoritos guardados"
+        >
+          <Heart size={18} style={{ color: totalFavoritesCount > 0 ? '#e11d48' : 'currentColor' }} />
+          <span className="hidden sm:inline">Favoritos</span>
+          {totalFavoritesCount > 0 && (
+            <span style={{
+              backgroundColor: '#e11d48',
+              color: 'white',
+              fontSize: '0.7rem',
+              fontWeight: 700,
+              padding: '1px 6px',
+              borderRadius: '9999px',
+              lineHeight: 1.2
+            }}>
+              {totalFavoritesCount}
+            </span>
+          )}
+        </Link>
+
         <Link 
           to="/mercado/publicar"
           style={{

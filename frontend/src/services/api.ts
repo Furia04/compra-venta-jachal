@@ -42,7 +42,11 @@ export async function apiFetch<T>(
     let errorMessage = `Error HTTP ${response.status}: ${response.statusText}`
     try {
       const errorJson = await response.json()
-      if (errorJson?.message) {
+      if (errorJson?.errors && Array.isArray(errorJson.errors) && errorJson.errors.length > 0) {
+        errorMessage = errorJson.errors
+          .map((e: { field?: string; message?: string }) => e.message || `${e.field}: inválido`)
+          .join('. ')
+      } else if (errorJson?.message) {
         errorMessage = errorJson.message
       }
     } catch {
