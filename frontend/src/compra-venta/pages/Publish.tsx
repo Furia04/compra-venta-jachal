@@ -109,20 +109,20 @@ export default function Publish() {
   }
 
   return (
-    <div style={{ maxWidth: '800px', margin: '2rem auto', padding: '0 var(--spacing-lg)' }}>
-      <div style={{ marginBottom: '2rem' }}>
-        <h1 style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--color-primary)', margin: '0 0 0.5rem 0' }}>
+    <div style={{ maxWidth: '800px', margin: '1.5rem auto 3rem', padding: '0 1rem' }}>
+      <div style={{ marginBottom: '1.5rem' }}>
+        <h1 style={{ fontSize: 'clamp(1.5rem, 5vw, 2rem)', fontWeight: 700, color: 'var(--color-primary)', margin: '0 0 0.5rem 0' }}>
           Publicar un artículo
         </h1>
-        <p style={{ color: 'var(--color-text-secondary)', margin: 0 }}>
+        <p style={{ color: 'var(--color-text-secondary)', margin: 0, fontSize: '0.95rem' }}>
           Completá los datos para que los vecinos puedan encontrarte.
         </p>
       </div>
 
       {!isAuthenticated && (
-        <div style={{ padding: '1rem', backgroundColor: '#eef2ff', border: '1px solid #c7d2fe', borderRadius: 'var(--radius-sm)', marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ color: '#3730a3', fontSize: '0.9rem' }}>Te sugerimos iniciar sesión para que los compradores vean tu contacto.</span>
-          <Link to="/mercado/login" style={{ backgroundColor: '#4f46e5', color: 'white', padding: '0.5rem 1rem', borderRadius: 'var(--radius-sm)', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 600 }}>
+        <div style={{ padding: '1rem', backgroundColor: '#eef2ff', border: '1px solid #c7d2fe', borderRadius: 'var(--radius-sm)', marginBottom: '1.5rem', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '0.75rem' }}>
+          <span style={{ color: '#3730a3', fontSize: '0.9rem', flex: '1 1 200px' }}>Te sugerimos iniciar sesión para que los compradores vean tu contacto.</span>
+          <Link to="/mercado/login" style={{ backgroundColor: '#4f46e5', color: 'white', padding: '0.5rem 1rem', borderRadius: 'var(--radius-sm)', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 600, whiteSpace: 'nowrap' }}>
             Iniciar Sesión
           </Link>
         </div>
@@ -134,7 +134,7 @@ export default function Publish() {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} style={{ backgroundColor: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)', padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+      <form onSubmit={handleSubmit} style={{ backgroundColor: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)', padding: 'clamp(1.25rem, 4vw, 2rem)', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
         
         {/* Photos */}
         <div>

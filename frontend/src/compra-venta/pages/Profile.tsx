@@ -73,13 +73,13 @@ export default function Profile() {
   if (!user) return null
 
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem 1.5rem' }}>
+    <div className="responsive-container" style={{ paddingTop: '1.5rem', paddingBottom: '3rem' }}>
       
       {/* User Header Card */}
       <div style={{
         backgroundColor: 'var(--color-surface)',
         borderRadius: 'var(--radius-lg)',
-        padding: '1.75rem',
+        padding: 'clamp(1.25rem, 4vw, 1.75rem)',
         border: '1px solid var(--color-border)',
         boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
         marginBottom: '2rem',
@@ -87,7 +87,7 @@ export default function Profile() {
         flexWrap: 'wrap',
         justifyContent: 'space-between',
         alignItems: 'center',
-        gap: '1.5rem'
+        gap: '1.25rem'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
           <div style={{
@@ -226,12 +226,7 @@ export default function Profile() {
             </Link>
           </div>
         ) : (
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-            gap: '1.5rem',
-            width: '100%'
-          }}>
+          <div className="responsive-grid-products">
             {myListings.map((product) => {
               const productId = product._id || product.id || ''
               return (

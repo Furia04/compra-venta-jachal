@@ -11,33 +11,15 @@ export default function Navbar() {
   const navigate = useNavigate()
 
   return (
-    <nav style={{
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      padding: 'var(--spacing-md) var(--spacing-lg)',
-      backgroundColor: 'var(--color-surface)',
-      borderBottom: '1px solid var(--color-border)',
-      position: 'sticky',
-      top: 0,
-      zIndex: 100
-    }}>
+    <nav className="flex justify-between items-center px-3 sm:px-6 py-2.5 sm:py-3.5 bg-[var(--color-surface)] border-b border-[var(--color-border)] sticky top-0 z-50">
       {/* Left side: Logo */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-lg)' }}>
+      <div className="flex items-center gap-2 sm:gap-4">
         <Link 
           to="/" 
-          style={{
-            fontWeight: 700,
-            fontSize: '1.25rem',
-            color: 'var(--color-primary)',
-            textDecoration: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem'
-          }}
+          className="font-extrabold text-base sm:text-xl text-[var(--color-primary)] flex items-center gap-1.5 sm:gap-2 tracking-tight"
         >
-          <ShoppingBag size={24} />
-          Jáchal Vende
+          <ShoppingBag className="w-5 h-5 sm:w-6 sm:h-6 shrink-0" />
+          <span>Jáchal Vende</span>
         </Link>
         
         {/* Switcher OficiosYa - Anulado / Comentado temporalmente */}
@@ -84,24 +66,13 @@ export default function Navbar() {
       </div>
 
       {/* Right side: Actions */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-md)' }}>
+      <div className="flex items-center gap-1.5 sm:gap-3">
         <Link
           to="/favoritos"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.4rem',
-            padding: 'var(--spacing-xs) var(--spacing-sm)',
-            borderRadius: 'var(--radius-sm)',
-            textDecoration: 'none',
-            color: 'var(--color-text)',
-            fontSize: '0.9rem',
-            fontWeight: 500,
-            position: 'relative'
-          }}
+          className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1.5 rounded text-[var(--color-text)] text-xs sm:text-sm font-medium relative hover:bg-[var(--color-bg-secondary)] transition-colors"
           title="Ver favoritos guardados"
         >
-          <Heart size={18} style={{ color: totalFavoritesCount > 0 ? '#e11d48' : 'currentColor' }} />
+          <Heart className="w-4 h-4 sm:w-4.5 sm:h-4.5 shrink-0" style={{ color: totalFavoritesCount > 0 ? '#e11d48' : 'currentColor' }} />
           <span className="hidden sm:inline">Favoritos</span>
           {totalFavoritesCount > 0 && (
             <span style={{
@@ -109,7 +80,7 @@ export default function Navbar() {
               color: 'white',
               fontSize: '0.7rem',
               fontWeight: 700,
-              padding: '1px 6px',
+              padding: '1px 5px',
               borderRadius: '9999px',
               lineHeight: 1.2
             }}>
@@ -120,15 +91,7 @@ export default function Navbar() {
 
         <Link 
           to="/mercado/publicar"
-          style={{
-            padding: 'var(--spacing-xs) var(--spacing-md)',
-            backgroundColor: 'var(--color-primary)',
-            color: '#fff',
-            borderRadius: 'var(--radius-sm)',
-            textDecoration: 'none',
-            fontSize: '0.9rem',
-            fontWeight: 600
-          }}
+          className="px-3 sm:px-4 py-1.5 sm:py-2 bg-[var(--color-primary)] text-white rounded text-xs sm:text-sm font-semibold hover:opacity-90 transition-opacity shadow-xs"
         >
           Publicar
         </Link>
@@ -137,15 +100,8 @@ export default function Navbar() {
           <div style={{ position: 'relative' }}>
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
-              style={{
-                background: 'none',
-                border: 'none',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                cursor: 'pointer',
-                color: 'var(--color-text)'
-              }}
+              className="p-1 sm:p-1.5 bg-transparent border-0 flex items-center gap-1.5 cursor-pointer text-[var(--color-text)]"
+              aria-label="Menú de usuario"
             >
               <div style={{
                 width: '32px',
@@ -171,14 +127,15 @@ export default function Navbar() {
                 backgroundColor: 'var(--color-surface)',
                 border: '1px solid var(--color-border)',
                 borderRadius: 'var(--radius-md)',
-                boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.12)',
                 minWidth: '200px',
+                maxWidth: 'calc(100vw - 2rem)',
                 overflow: 'hidden',
-                zIndex: 10
+                zIndex: 60
               }}>
                 <div style={{ padding: 'var(--spacing-sm) var(--spacing-md)', borderBottom: '1px solid var(--color-border)', fontSize: '0.85rem' }}>
                   <p style={{ margin: 0, fontWeight: 600, color: 'var(--color-text)' }}>{user?.name}</p>
-                  <p style={{ margin: 0, color: 'var(--color-text-secondary)' }}>{user?.email}</p>
+                  <p style={{ margin: 0, color: 'var(--color-text-secondary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user?.email}</p>
                 </div>
                 <div style={{ padding: 'var(--spacing-xs) 0' }}>
                   <Link 
@@ -199,7 +156,7 @@ export default function Navbar() {
                   <button 
                     onClick={() => {
                       logout()
-                      navigate('/mercado')
+                      navigate('/')
                       setDropdownOpen(false)
                     }}
                     style={{
@@ -225,16 +182,7 @@ export default function Navbar() {
         ) : (
           <Link 
             to="/mercado/login"
-            style={{
-              padding: 'var(--spacing-xs) var(--spacing-md)',
-              border: '1px solid var(--color-border)',
-              backgroundColor: 'transparent',
-              color: 'var(--color-text)',
-              borderRadius: 'var(--radius-sm)',
-              textDecoration: 'none',
-              fontSize: '0.9rem',
-              fontWeight: 600
-            }}
+            className="px-2.5 sm:px-4 py-1.5 sm:py-2 border border-[var(--color-border)] bg-transparent text-[var(--color-text)] rounded text-xs sm:text-sm font-semibold hover:bg-[var(--color-bg-secondary)] transition-colors"
           >
             Ingresar
           </Link>

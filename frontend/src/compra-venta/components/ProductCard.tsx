@@ -28,72 +28,88 @@ export default function ProductCard({ product }: ProductCardProps) {
       border: '1px solid var(--color-border)',
       borderRadius: 'var(--radius-md)',
       overflow: 'hidden',
-      transition: 'box-shadow 0.2s'
+      transition: 'box-shadow 0.2s',
+      height: '100%',
+      boxSizing: 'border-box'
     }}>
-      <img 
-        src={productImage} 
-        alt={productTitle} 
-        style={{
-          width: '100%',
-          height: '160px',
-          objectFit: 'cover'
-        }}
-      />
+      <div style={{ position: 'relative', width: '100%', height: '170px', backgroundColor: 'var(--color-bg-secondary)', overflow: 'hidden' }}>
+        <img 
+          src={productImage} 
+          alt={productTitle} 
+          loading="lazy"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover'
+          }}
+        />
 
-      {/* Botón Flotante de Favorito */}
-      <button
-        type="button"
-        onClick={(e) => {
-          e.preventDefault()
-          toggleProductFavorite(product)
-        }}
-        aria-label={isFav ? 'Quitar de favoritos' : 'Guardar en favoritos'}
-        title={isFav ? 'Quitar de favoritos' : 'Guardar en favoritos'}
-        style={{
-          position: 'absolute',
-          top: '8px',
-          right: '8px',
-          backgroundColor: 'rgba(255, 255, 255, 0.9)',
-          border: 'none',
-          borderRadius: '50%',
-          width: '32px',
-          height: '32px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: isFav ? '#E11D48' : '#64748B',
-          cursor: 'pointer',
-          boxShadow: '0 2px 6px rgba(0, 0, 0, 0.15)',
-          transition: 'all 0.2s',
-          zIndex: 10
-        }}
-      >
-        <Heart size={18} className={isFav ? 'fill-current' : ''} />
-      </button>
+        {/* Botón Flotante de Favorito */}
+        <button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault()
+            toggleProductFavorite(product)
+          }}
+          aria-label={isFav ? 'Quitar de favoritos' : 'Guardar en favoritos'}
+          title={isFav ? 'Quitar de favoritos' : 'Guardar en favoritos'}
+          style={{
+            position: 'absolute',
+            top: '8px',
+            right: '8px',
+            backgroundColor: 'rgba(255, 255, 255, 0.92)',
+            border: 'none',
+            borderRadius: '50%',
+            width: '34px',
+            height: '34px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: isFav ? '#E11D48' : '#64748B',
+            cursor: 'pointer',
+            boxShadow: '0 2px 6px rgba(0, 0, 0, 0.15)',
+            transition: 'all 0.2s',
+            zIndex: 10
+          }}
+        >
+          <Heart size={18} className={isFav ? 'fill-current' : ''} />
+        </button>
+      </div>
       
       <div style={{
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
+        flex: 1,
         gap: 'var(--spacing-xs)',
-        padding: 'var(--spacing-md)',
-        textAlign: 'center'
+        padding: '1rem',
+        textAlign: 'left'
       }}>
-        <h3 style={{ fontSize: '1rem', color: 'var(--color-text)', margin: 0, fontWeight: 700 }}>
-          {productTitle}
-        </h3>
-        <p style={{ fontSize: '0.85rem', color: 'var(--color-text-secondary)', margin: 0 }}>
-          {productLocation}
-        </p>
-        <div style={{ fontSize: '1.1rem', fontWeight: 'bold', color: 'var(--color-primary)', marginTop: '0.5rem' }}>
+        <div style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--color-primary)' }}>
           ${productPrice.toLocaleString('es-AR')}
         </div>
+        <h3 style={{ 
+          fontSize: '0.95rem', 
+          color: 'var(--color-text)', 
+          margin: '0.2rem 0 0', 
+          fontWeight: 600,
+          lineHeight: 1.35,
+          display: '-webkit-box',
+          WebkitLineClamp: 2,
+          WebkitBoxOrient: 'vertical',
+          overflow: 'hidden',
+          minHeight: '2.6rem'
+        }}>
+          {productTitle}
+        </h3>
+        <p style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)', margin: 'auto 0 0.75rem', display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <span>📍</span> {productLocation}
+        </p>
         
         <Link 
           to={`/mercado/producto/${productId}`}
           style={{
-            marginTop: '1rem',
-            padding: 'var(--spacing-sm) var(--spacing-lg)',
+            marginTop: 'auto',
+            padding: '0.65rem 1rem',
             backgroundColor: 'var(--color-primary)',
             color: '#ffffff',
             borderRadius: 'var(--radius-sm)',
@@ -102,7 +118,8 @@ export default function ProductCard({ product }: ProductCardProps) {
             width: '100%',
             textAlign: 'center',
             textDecoration: 'none',
-            boxSizing: 'border-box'
+            boxSizing: 'border-box',
+            display: 'block'
           }}
         >
           Ver producto

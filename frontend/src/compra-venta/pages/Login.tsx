@@ -41,12 +41,12 @@ export default function Login() {
   }
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '80vh', padding: 'var(--spacing-xl) var(--spacing-lg)' }}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '80vh', padding: '2rem 1rem' }}>
       <div style={{
         maxWidth: '450px',
         width: '100%',
         backgroundColor: 'var(--color-surface)',
-        padding: '2rem',
+        padding: 'clamp(1.25rem, 5vw, 2rem)',
         borderRadius: 'var(--radius-md)',
         border: '1px solid var(--color-border)',
         boxShadow: '0 4px 6px rgba(0,0,0,0.05)'

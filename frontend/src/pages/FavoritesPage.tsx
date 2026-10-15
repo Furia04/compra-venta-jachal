@@ -10,7 +10,7 @@ export default function FavoritesPage() {
   // const [activeTab, setActiveTab] = useState<'workers' | 'products'>('products')
 
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem 1.5rem', minHeight: '75vh' }}>
+    <div className="responsive-container" style={{ paddingTop: '1.5rem', paddingBottom: '3rem', minHeight: '75vh' }}>
       {/* Volver */}
       <div style={{ marginBottom: '1.5rem' }}>
         <Link 
@@ -175,11 +175,7 @@ export default function FavoritesPage() {
           </Link>
         </div>
       ) : (
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
-          gap: '1.5rem'
-        }}>
+        <div className="responsive-grid-products">
           {favoriteProducts.map((product) => (
             <ProductCard key={product._id || product.id} product={product} />
           ))}

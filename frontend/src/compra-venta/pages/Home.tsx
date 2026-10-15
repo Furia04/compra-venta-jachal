@@ -158,37 +158,33 @@ export default function MarketplaceHome() {
     <div>
       {/* Hero */}
       <section style={{ 
-        padding: '2.5rem 1.5rem', 
+        padding: 'clamp(2rem, 5vw, 3rem) 1rem', 
         textAlign: 'center', 
         backgroundColor: 'var(--color-bg-secondary)',
         borderBottom: '1px solid var(--color-border)'
       }}>
-        <h1 style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--color-primary)', marginBottom: '0.5rem', lineHeight: 1.2 }}>
+        <h1 style={{ fontSize: 'clamp(1.6rem, 5vw, 2.25rem)', fontWeight: 800, color: 'var(--color-primary)', marginBottom: '0.5rem', lineHeight: 1.2 }}>
           Jáchal Vende 🛒
         </h1>
-        <p style={{ fontSize: '1rem', color: 'var(--color-text-secondary)', maxWidth: '550px', margin: '0 auto' }}>
+        <p style={{ fontSize: 'clamp(0.9rem, 2.5vw, 1.05rem)', color: 'var(--color-text-secondary)', maxWidth: '550px', margin: '0 auto', lineHeight: 1.5 }}>
           El punto de encuentro para comprar y vender productos en Jáchal. Contacto directo por WhatsApp sin intermediarios ni comisiones.
         </p>
       </section>
 
       {/* Search Bar & Filter Toggle */}
-      <div style={{ maxWidth: '900px', margin: '1.5rem auto 0', padding: '0 1.5rem' }}>
+      <div className="responsive-container" style={{ marginTop: '1.25rem' }}>
         <form 
           onSubmit={handleSearchSubmit} 
-          style={{
-            display: 'flex',
-            gap: '0.5rem',
-            alignItems: 'center'
-          }}
+          className="flex flex-wrap sm:flex-nowrap gap-2 items-center"
         >
-          <div style={{ position: 'relative', flex: 1 }}>
+          <div style={{ position: 'relative', flex: '1 1 240px', minWidth: 0 }}>
             <input
               type="text"
               placeholder="¿Qué estás buscando? Ej: Bicicleta, Celular, Sillón..."
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
               style={{
-                padding: '0.85rem 1rem 0.85rem 2.5rem',
+                padding: '0.8rem 1rem 0.8rem 2.4rem',
                 fontSize: '0.95rem',
                 border: '1px solid var(--color-border)',
                 borderRadius: 'var(--radius-md)',
@@ -210,43 +206,49 @@ export default function MarketplaceHome() {
             />
           </div>
 
-          <button 
-            type="submit"
-            style={{
-              padding: '0.85rem 1.25rem',
-              backgroundColor: 'var(--color-primary)',
-              color: '#ffffff',
-              border: 'none',
-              borderRadius: 'var(--radius-md)',
-              fontSize: '0.95rem',
-              fontWeight: 600,
-              cursor: 'pointer',
-              whiteSpace: 'nowrap'
-            }}
-          >
-            Buscar
-          </button>
+          <div className="flex gap-2 w-full sm:w-auto shrink-0">
+            <button 
+              type="submit"
+              className="flex-1 sm:flex-none justify-center"
+              style={{
+                padding: '0.8rem 1.25rem',
+                backgroundColor: 'var(--color-primary)',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: 'var(--radius-md)',
+                fontSize: '0.95rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+                display: 'inline-flex',
+                alignItems: 'center'
+              }}
+            >
+              Buscar
+            </button>
 
-          <button
-            type="button"
-            onClick={() => setShowFilters(!showFilters)}
-            style={{
-              padding: '0.85rem 1rem',
-              backgroundColor: showFilters ? 'var(--color-primary-light)' : 'var(--color-surface)',
-              color: showFilters ? '#ffffff' : 'var(--color-text)',
-              border: '1px solid var(--color-border)',
-              borderRadius: 'var(--radius-md)',
-              fontSize: '0.9rem',
-              fontWeight: 600,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px'
-            }}
-          >
-            <SlidersHorizontal size={16} />
-            <span className="hidden sm:inline">Filtros</span>
-          </button>
+            <button
+              type="button"
+              onClick={() => setShowFilters(!showFilters)}
+              className="flex-1 sm:flex-none justify-center"
+              style={{
+                padding: '0.8rem 1rem',
+                backgroundColor: showFilters ? 'var(--color-primary-light)' : 'var(--color-surface)',
+                color: showFilters ? '#ffffff' : 'var(--color-text)',
+                border: '1px solid var(--color-border)',
+                borderRadius: 'var(--radius-md)',
+                fontSize: '0.9rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px'
+              }}
+            >
+              <SlidersHorizontal size={16} />
+              <span>Filtros</span>
+            </button>
+          </div>
         </form>
 
         {/* Panel Desplegable de Filtros Avanzados */}
@@ -376,14 +378,17 @@ export default function MarketplaceHome() {
       </div>
 
       {/* Categorías en Carrusel / Chips */}
-      <section style={{ padding: '1.5rem 1.5rem 0.5rem', maxWidth: '1200px', margin: '0 auto' }}>
-        <div style={{
-          display: 'flex',
-          gap: '0.75rem',
-          overflowX: 'auto',
-          paddingBottom: '0.5rem',
-          scrollbarWidth: 'thin'
-        }}>
+      <section className="responsive-container" style={{ paddingTop: '1.25rem', paddingBottom: '0.5rem' }}>
+        <div 
+          className="no-scrollbar"
+          style={{
+            display: 'flex',
+            gap: '0.6rem',
+            overflowX: 'auto',
+            WebkitOverflowScrolling: 'touch',
+            paddingBottom: '0.5rem'
+          }}
+        >
           {CATEGORIES.map((category) => {
             const Icon = category.icon
             const isSelected = (!currentCategory && category.id === 'todos') || (currentCategory === category.id)
@@ -394,8 +399,8 @@ export default function MarketplaceHome() {
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.5rem',
-                  padding: '0.6rem 1.1rem',
+                  gap: '0.45rem',
+                  padding: '0.55rem 1rem',
                   backgroundColor: isSelected ? 'var(--color-primary)' : 'var(--color-surface)',
                   color: isSelected ? '#ffffff' : 'var(--color-text)',
                   border: `1px solid ${isSelected ? 'var(--color-primary)' : 'var(--color-border)'}`,
@@ -404,10 +409,11 @@ export default function MarketplaceHome() {
                   cursor: 'pointer',
                   fontSize: '0.85rem',
                   fontWeight: 600,
-                  transition: 'all 0.2s'
+                  transition: 'all 0.2s',
+                  flexShrink: 0
                 }}
               >
-                <Icon size={16} />
+                <Icon size={15} />
                 <span>{category.name}</span>
               </button>
             )
@@ -416,10 +422,10 @@ export default function MarketplaceHome() {
       </section>
 
       {/* Products Section */}
-      <section style={{ padding: '1.5rem 1.5rem 3rem', maxWidth: '1200px', margin: '0 auto' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
+      <section className="responsive-container" style={{ paddingTop: '1.25rem', paddingBottom: '3rem' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem' }}>
           <div>
-            <h2 style={{ fontSize: '1.35rem', fontWeight: 700, color: 'var(--color-text)', margin: 0 }}>
+            <h2 style={{ fontSize: 'clamp(1.15rem, 3.5vw, 1.35rem)', fontWeight: 700, color: 'var(--color-text)', margin: 0 }}>
               {searchParam
                 ? `Resultados para "${searchParam}"`
                 : currentCategory 
@@ -458,7 +464,7 @@ export default function MarketplaceHome() {
         ) : filteredProducts.length === 0 ? (
           <div style={{
             textAlign: 'center',
-            padding: '3.5rem 1.5rem',
+            padding: '3rem 1.25rem',
             backgroundColor: 'var(--color-surface)',
             border: '1px solid var(--color-border)',
             borderRadius: 'var(--radius-lg)'
@@ -485,11 +491,7 @@ export default function MarketplaceHome() {
             </button>
           </div>
         ) : (
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
-            gap: '1.5rem'
-          }}>
+          <div className="responsive-grid-products">
             {filteredProducts.map((product) => (
               <ProductCard key={product._id} product={product} />
             ))}
@@ -501,19 +503,19 @@ export default function MarketplaceHome() {
       <section style={{
         backgroundColor: 'var(--color-bg-secondary)',
         borderTop: '1px solid var(--color-border)',
-        padding: '3rem 1.5rem',
+        padding: 'clamp(2.25rem, 5vw, 3.5rem) 1rem',
         textAlign: 'center'
       }}>
-        <h2 style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--color-primary)', marginBottom: '0.75rem' }}>
+        <h2 style={{ fontSize: 'clamp(1.35rem, 4vw, 1.75rem)', fontWeight: 700, color: 'var(--color-primary)', marginBottom: '0.75rem' }}>
           ¿Tenés algo para vender en Jáchal?
         </h2>
-        <p style={{ color: 'var(--color-text-secondary)', marginBottom: '1.5rem', maxWidth: '500px', margin: '0 auto 1.5rem' }}>
+        <p style={{ color: 'var(--color-text-secondary)', marginBottom: '1.5rem', maxWidth: '500px', margin: '0 auto 1.5rem', fontSize: 'clamp(0.85rem, 2.5vw, 0.95rem)' }}>
           Publicá tu auto, terreno, teléfono o herramientas en minutos. Es gratis y conectás directo por WhatsApp con compradores reales.
         </p>
         <button
           onClick={() => navigate('/mercado/publicar')}
           style={{
-            padding: '0.9rem 1.8rem',
+            padding: '0.85rem 1.6rem',
             backgroundColor: 'var(--color-primary)',
             color: '#fff',
             border: 'none',

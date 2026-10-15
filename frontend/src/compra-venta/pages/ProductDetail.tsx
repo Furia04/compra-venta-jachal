@@ -115,24 +115,24 @@ export default function ProductDetail() {
   const mainImage = product.images?.[0]?.url || product.image || 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&q=80&w=800'
 
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '1.5rem 1rem' }}>
+    <div className="responsive-container" style={{ paddingTop: '1.25rem', paddingBottom: '3rem' }}>
       
       {/* Breadcrumb Navigation */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', color: 'var(--color-text-secondary)', marginBottom: '1.5rem' }}>
-        <Link to="/mercado" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem', color: 'var(--color-primary)', fontWeight: 600 }}>
+      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-[var(--color-text-secondary)] mb-4">
+        <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem', color: 'var(--color-primary)', fontWeight: 600 }}>
           <ArrowLeft size={16} />
           <span>Volver a Jáchal Vende</span>
         </Link>
         <span>/</span>
         <span style={{ textTransform: 'capitalize', color: 'var(--color-text)' }}>{product.category || 'Artículos'}</span>
-        <span>/</span>
-        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '240px' }}>{product.title}</span>
+        <span className="hidden sm:inline">/</span>
+        <span className="hidden sm:inline" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '240px' }}>{product.title}</span>
       </div>
 
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-        gap: '2rem',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
+        gap: '1.5rem',
         alignItems: 'start'
       }}>
         
@@ -225,8 +225,8 @@ export default function ProductDetail() {
             boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
           }}>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.25rem', marginBottom: '0.5rem' }}>
-              <span style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--color-primary)' }}>$</span>
-              <span style={{ fontSize: '2.25rem', fontWeight: 900, color: 'var(--color-text)', letterSpacing: '-0.5px' }}>
+              <span style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--color-primary)' }}>$</span>
+              <span style={{ fontSize: 'clamp(1.75rem, 5vw, 2.25rem)', fontWeight: 900, color: 'var(--color-text)', letterSpacing: '-0.5px' }}>
                 {Number(product.price).toLocaleString('es-AR')}
               </span>
             </div>
