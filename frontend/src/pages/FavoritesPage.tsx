@@ -1,15 +1,13 @@
-import { useState } from 'react'
+// import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Heart, Wrench, ShoppingBag, ArrowLeft, Sparkles } from 'lucide-react'
+import { Heart, ShoppingBag, ArrowLeft, Sparkles } from 'lucide-react'
 import { useFavorites } from '../context/FavoritesContext'
-import WorkerCard from '../components/WorkerCard/WorkerCard'
+// import WorkerCard from '../components/WorkerCard/WorkerCard'
 import ProductCard from '../compra-venta/components/ProductCard'
 
 export default function FavoritesPage() {
-  const { favoriteWorkers, favoriteProducts } = useFavorites()
-  const [activeTab, setActiveTab] = useState<'workers' | 'products'>(
-    favoriteWorkers.length > 0 ? 'workers' : (favoriteProducts.length > 0 ? 'products' : 'workers')
-  )
+  const { favoriteProducts } = useFavorites() // favoriteWorkers anulado temporalmente
+  // const [activeTab, setActiveTab] = useState<'workers' | 'products'>('products')
 
   return (
     <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem 1.5rem', minHeight: '75vh' }}>
@@ -55,7 +53,8 @@ export default function FavoritesPage() {
         </div>
       </div>
 
-      {/* Tabs */}
+      {/* Tabs - Oficios anulado temporalmente */}
+      {/*
       <div style={{
         display: 'flex',
         gap: '8px',
@@ -106,124 +105,85 @@ export default function FavoritesPage() {
           <span>Artículos del Mercado ({favoriteProducts.length})</span>
         </button>
       </div>
+      */}
 
-      {/* Content */}
-      {activeTab === 'workers' ? (
-        favoriteWorkers.length === 0 ? (
-          <div style={{
-            textAlign: 'center',
-            padding: '4rem 1.5rem',
-            backgroundColor: 'var(--color-surface)',
-            border: '1px solid var(--color-border)',
-            borderRadius: 'var(--radius-lg)'
-          }}>
-            <div style={{
-              width: '56px',
-              height: '56px',
-              backgroundColor: 'var(--color-bg-secondary)',
-              color: 'var(--color-text-secondary)',
-              borderRadius: '50%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              margin: '0 auto 1rem'
-            }}>
-              <Wrench size={26} />
-            </div>
-            <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--color-text)', marginBottom: '6px' }}>
-              No tenés trabajadores guardados todavía
-            </h3>
-            <p style={{ fontSize: '0.85rem', color: 'var(--color-text-secondary)', maxWidth: '400px', margin: '0 auto 1.5rem' }}>
-              Explorá electricistas, plomeros, albañiles o técnicos y guardá los perfiles que más te interesen haciendo clic en el corazón.
-            </p>
-            <Link
-              to="/buscar"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                backgroundColor: 'var(--color-primary)',
-                color: 'white',
-                padding: '10px 20px',
-                borderRadius: 'var(--radius-sm)',
-                textDecoration: 'none',
-                fontWeight: 600,
-                fontSize: '0.9rem'
-              }}
-            >
-              <Sparkles size={16} />
-              Explorar directorio de oficios
-            </Link>
-          </div>
-        ) : (
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-            gap: '1.5rem'
-          }}>
-            {favoriteWorkers.map((worker) => (
-              <WorkerCard key={worker.id} worker={worker} />
-            ))}
-          </div>
-        )
+      {/* 
+      ============================================================
+      OFICIOSYA: LISTA DE TRABAJADORES (ANULADO - COMENTADO)
+      ============================================================
+      {favoriteWorkers.length === 0 ? (
+        <div>...</div>
       ) : (
-        favoriteProducts.length === 0 ? (
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
+          gap: '1.5rem'
+        }}>
+          {favoriteWorkers.map((worker) => (
+            <WorkerCard key={worker.id} worker={worker} />
+          ))}
+        </div>
+      )}
+      ============================================================
+      */}
+
+      {/* Artículos de Jáchal Vende */}
+      {favoriteProducts.length === 0 ? (
+        <div style={{
+          textAlign: 'center',
+          padding: '4rem 1.5rem',
+          backgroundColor: 'var(--color-surface)',
+          border: '1px solid var(--color-border)',
+          borderRadius: 'var(--radius-lg)'
+        }}>
           <div style={{
-            textAlign: 'center',
-            padding: '4rem 1.5rem',
-            backgroundColor: 'var(--color-surface)',
-            border: '1px solid var(--color-border)',
-            borderRadius: 'var(--radius-lg)'
+            width: '56px',
+            height: '56px',
+            backgroundColor: 'var(--color-bg-secondary)',
+            color: 'var(--color-text-secondary)',
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '0 auto 1rem'
           }}>
-            <div style={{
-              width: '56px',
-              height: '56px',
-              backgroundColor: 'var(--color-bg-secondary)',
-              color: 'var(--color-text-secondary)',
-              borderRadius: '50%',
-              display: 'flex',
+            <ShoppingBag size={26} />
+          </div>
+          <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--color-text)', marginBottom: '6px' }}>
+            No tenés artículos guardados todavía
+          </h3>
+          <p style={{ fontSize: '0.85rem', color: 'var(--color-text-secondary)', maxWidth: '400px', margin: '0 auto 1.5rem' }}>
+            Encontrá vehículos, muebles, celulares y herramientas en Jáchal Vende y guardalos para revisarlos más tarde.
+          </p>
+          <Link
+            to="/"
+            style={{
+              display: 'inline-flex',
               alignItems: 'center',
-              justifyContent: 'center',
-              margin: '0 auto 1rem'
-            }}>
-              <ShoppingBag size={26} />
-            </div>
-            <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--color-text)', marginBottom: '6px' }}>
-              No tenés artículos guardados todavía
-            </h3>
-            <p style={{ fontSize: '0.85rem', color: 'var(--color-text-secondary)', maxWidth: '400px', margin: '0 auto 1.5rem' }}>
-              Encontrá vehículos, muebles, celulares y herramientas en Jáchal Vende y guardalos para revisarlos más tarde.
-            </p>
-            <Link
-              to="/mercado"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                backgroundColor: 'var(--color-primary)',
-                color: 'white',
-                padding: '10px 20px',
-                borderRadius: 'var(--radius-sm)',
-                textDecoration: 'none',
-                fontWeight: 600,
-                fontSize: '0.9rem'
-              }}
-            >
-              <Sparkles size={16} />
-              Explorar publicaciones del mercado
-            </Link>
-          </div>
-        ) : (
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
-            gap: '1.5rem'
-          }}>
-            {favoriteProducts.map((product) => (
-              <ProductCard key={product._id || product.id} product={product} />
-            ))}
-          </div>
-        )
+              gap: '6px',
+              backgroundColor: 'var(--color-primary)',
+              color: 'white',
+              padding: '10px 20px',
+              borderRadius: 'var(--radius-sm)',
+              textDecoration: 'none',
+              fontWeight: 600,
+              fontSize: '0.9rem'
+            }}
+          >
+            <Sparkles size={16} />
+            Explorar publicaciones del mercado
+          </Link>
+        </div>
+      ) : (
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
+          gap: '1.5rem'
+        }}>
+          {favoriteProducts.map((product) => (
+            <ProductCard key={product._id || product.id} product={product} />
+          ))}
+        </div>
       )}
     </div>
   )

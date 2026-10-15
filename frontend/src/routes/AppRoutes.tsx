@@ -1,12 +1,17 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
+/* 
+============================================================
+MODULO OFICIOSYA (ANULADO TEMPORALMENTE - COMENTADO)
+============================================================
 import MainLayout from '../layouts/MainLayout'
 import Home from '../pages/Home'
 import SearchResults from '../pages/SearchResults'
 import CategoryPage from '../pages/CategoryPage'
-import NotFound from '../pages/NotFound'
-
 import WorkerDetail from '../pages/WorkerDetail'
 import WorkerRegister from '../pages/WorkerRegister'
+============================================================
+*/
+import NotFound from '../pages/NotFound'
 import FavoritesPage from '../pages/FavoritesPage'
 
 // Módulo Compra y Venta (Marketplace Jáchal Vende)
@@ -21,7 +26,10 @@ import Profile from '../compra-venta/pages/Profile'
 function AppRoutes() {
   return (
     <Routes>
-      {/* Portal 1: OficiosYa (Servicios & Profesionales) */}
+      {/* 
+      ============================================================
+      PORTAL 1: OFICIOSYA (ANULADO - COMENTADO ÚNICAMENTE)
+      ============================================================
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/oficios" element={<Home />} />
@@ -32,26 +40,31 @@ function AppRoutes() {
         <Route path="/registro-trabajador" element={<WorkerRegister />} />
         <Route path="/favoritos" element={<FavoritesPage />} />
       </Route>
+      ============================================================
+      */}
 
-      {/* Portal 2: Compra & Venta (Marketplace Jáchal Vende) */}
-      <Route path="/mercado" element={<MarketplaceLayout />}>
-        <Route index element={<MarketplaceHome />} />
-        <Route path="producto/:id" element={<ProductDetail />} />
-        <Route path="publicar" element={<Publish />} />
-        <Route path="login" element={<Login />} />
-        <Route path="registro" element={<Register />} />
-        <Route path="perfil" element={<Profile />} />
+      {/* Portal Principal: Compra & Venta (Marketplace Jáchal Vende) */}
+      <Route element={<MarketplaceLayout />}>
+        <Route path="/" element={<MarketplaceHome />} />
+        <Route path="/mercado" element={<MarketplaceHome />} />
+        <Route path="/mercado/producto/:id" element={<ProductDetail />} />
+        <Route path="/producto/:id" element={<ProductDetail />} />
+        <Route path="/mercado/publicar" element={<Publish />} />
+        <Route path="/publicar" element={<Publish />} />
+        <Route path="/mercado/login" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/mercado/registro" element={<Register />} />
+        <Route path="/registro" element={<Register />} />
+        <Route path="/mercado/perfil" element={<Profile />} />
+        <Route path="/perfil" element={<Profile />} />
+        <Route path="/favoritos" element={<FavoritesPage />} />
       </Route>
 
-      {/* Redirecciones de conveniencia para rutas de Compra y Venta */}
-      <Route path="/producto/:id" element={<Navigate to="/mercado/producto/:id" replace />} />
-      <Route path="/publicar" element={<Navigate to="/mercado/publicar" replace />} />
-      <Route path="/login" element={<Navigate to="/mercado/login" replace />} />
-      <Route path="/registro" element={<Navigate to="/mercado/registro" replace />} />
-      <Route path="/perfil" element={<Navigate to="/mercado/perfil" replace />} />
+      {/* Redirecciones de compatibilidad */}
+      <Route path="/oficios" element={<Navigate to="/" replace />} />
 
       {/* 404 Not Found */}
-      <Route element={<MainLayout />}>
+      <Route element={<MarketplaceLayout />}>
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

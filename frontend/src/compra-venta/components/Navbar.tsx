@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useFavorites } from '../../context/FavoritesContext'
-import { ShoppingBag, Wrench, UserCircle, LogOut, Heart } from 'lucide-react'
+import { ShoppingBag, UserCircle, LogOut, Heart } from 'lucide-react'
 
 export default function Navbar() {
   const { user, isAuthenticated, logout } = useAuth()
@@ -25,7 +25,7 @@ export default function Navbar() {
       {/* Left side: Logo */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-lg)' }}>
         <Link 
-          to="/mercado" 
+          to="/" 
           style={{
             fontWeight: 700,
             fontSize: '1.25rem',
@@ -40,7 +40,8 @@ export default function Navbar() {
           Jáchal Vende
         </Link>
         
-        {/* Switcher */}
+        {/* Switcher OficiosYa - Anulado / Comentado temporalmente */}
+        {/*
         <div style={{
           display: 'flex',
           gap: 'var(--spacing-sm)',
@@ -79,6 +80,7 @@ export default function Navbar() {
             <ShoppingBag size={14} /> Compra & Venta
           </span>
         </div>
+        */}
       </div>
 
       {/* Right side: Actions */}
